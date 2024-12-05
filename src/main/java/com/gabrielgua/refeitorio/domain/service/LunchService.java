@@ -1,5 +1,7 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.exception.LunchNotFoundException;
+import com.gabrielgua.refeitorio.domain.exception.LunchStatusException;
 import com.gabrielgua.refeitorio.domain.model.Lunch;
 import com.gabrielgua.refeitorio.domain.model.LunchStatus;
 import com.gabrielgua.refeitorio.domain.model.Price;
@@ -33,14 +35,14 @@ public class LunchService {
     }
 
     @Transactional(readOnly = true)
-    public Lunch findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found by id"));
+    public Lunch findById(Long lunchId) {
+        return repository.findById(lunchId).orElseThrow(() -> new LunchNotFoundException(lunchId));
     }
 
     @Transactional
     public void confirm(Lunch lunch) {
         if (lunch.getStatus() == LunchStatus.CONFIRMED) {
-            throw new RuntimeException("Cannot confirm a confirmed lunch");
+            throw new LunchStatusException("Cannot confirm a confirmed lunch.");
         }
         lunch.setStatus(LunchStatus.CONFIRMED);
         repository.save(lunch);
@@ -49,7 +51,7 @@ public class LunchService {
     @Transactional
     public void cancel(Lunch lunch) {
         if (lunch.getStatus() == LunchStatus.CONFIRMED) {
-            throw new RuntimeException("Cannot cancel a confirmed lunch");
+            throw new LunchStatusException("Cannot cancel a confirmed lunch.");
         }
 
         repository.delete(lunch);

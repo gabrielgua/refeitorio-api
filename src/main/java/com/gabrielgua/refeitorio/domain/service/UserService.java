@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.User;
 import com.gabrielgua.refeitorio.domain.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User findByCredential(UUID credential) {
-        return repository.findById(credential).orElseThrow(() -> new RuntimeException("Not found by credential"));
+        return repository.findById(credential).orElseThrow(() -> new UserNotFoundException(credential));
     }
 }
