@@ -1,0 +1,1 @@
+alter table lunch add column status varchar(20) not null;

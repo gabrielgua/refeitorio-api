@@ -1,0 +1,1 @@
+alter table lunch add column weight decimal(10, 2) not null;
