@@ -4,27 +4,24 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
-import java.sql.Types;
-import java.util.UUID;
 
 @Data
-@Entity
-@Table(name = "users")
-public class User {
+@Builder
+@Table(name = "products")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Product {
 
     @Id
     @EqualsAndHashCode.Include
-    private String credential;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String code;
     private String name;
-    private String email;
-    private String password;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-
-    private BigDecimal salary;
+    private PriceType priceType;
 }
