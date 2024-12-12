@@ -1,21 +1,12 @@
 package com.gabrielgua.refeitorio.api.security;
 
-import com.gabrielgua.refeitorio.domain.model.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.gabrielgua.refeitorio.domain.model.Usuario;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.MacAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,17 +31,17 @@ public class TokenService {
                 .compact();
     }
 
-    public String generateToken(User user) {
+    public String generateToken(Usuario user) {
         return buildToken(new HashMap<>(), user.getEmail());
     }
 
-    public String generateToken(User user, Map<String, Object> extraClaims) {
+    public String generateToken(Usuario user, Map<String, Object> extraClaims) {
         return buildToken(extraClaims, user.getEmail());
     }
 
     public boolean isTokenValid(String token, String subject) {
         final String email = getTokenSubject(token);
-        return email.equals(subject) && getTokenExpiration(token).before(new Date());
+        return email.equals(subject) && getTokenExpiration(token).after(new Date());
     }
 
     public String getTokenSubject(String token) {

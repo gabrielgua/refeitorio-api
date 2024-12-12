@@ -1,4 +1,4 @@
-create table services (
+create table atendimentos (
     id bigint not null auto_increment,
     name varchar(255) not null,
     time_start time not null,
@@ -8,7 +8,7 @@ create table services (
     primary key (id)
 );
 
-create table products (
+create table produtos (
     id bigint not null auto_increment,
     code varchar(255),
     name varchar(255) not null,
@@ -18,11 +18,11 @@ create table products (
     primary key (id)
 );
 
-create table services_products(
-    service_id bigint not null,
-    product_id bigint not null,
+create table atendimentos_produtos (
+    atendimento_id bigint not null,
+    produto_id bigint not null,
 
-    primary key (service_id, product_id),
-    constraint sp_services_fk foreign key (service_id) references services (id),
-    constraint sp_products foreign key (product_id) references products (id)
+    primary key (atendimento_id, produto_id),
+    constraint ap_atendimentos_fk foreign key (atendimento_id) references atendimentos (id),
+    constraint ap_produtos_fk foreign key (produto_id) references produtos (id)
 );

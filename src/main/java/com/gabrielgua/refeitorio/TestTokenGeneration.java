@@ -1,21 +1,18 @@
 package com.gabrielgua.refeitorio;
 
 import com.gabrielgua.refeitorio.api.security.TokenService;
-import com.gabrielgua.refeitorio.domain.service.UserService;
+import com.gabrielgua.refeitorio.domain.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
 public class TestTokenGeneration implements ApplicationRunner {
 
     private final TokenService tokenService;
-    private final UserService userService;
+    private final UsuarioService userService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

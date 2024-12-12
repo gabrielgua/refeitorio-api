@@ -28,7 +28,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         final String email;
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+
         if (header == null || !header.startsWith("Bearer ")) {
+            System.out.println(header);
             filterChain.doFilter(request, response);
             return;
         }

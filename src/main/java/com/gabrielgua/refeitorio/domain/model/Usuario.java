@@ -1,19 +1,15 @@
 package com.gabrielgua.refeitorio.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
-import java.sql.Types;
-import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "usuarios")
+public class Usuario {
 
     @Id
     @EqualsAndHashCode.Include

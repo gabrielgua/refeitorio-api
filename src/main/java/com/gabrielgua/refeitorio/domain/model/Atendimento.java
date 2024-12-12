@@ -1,20 +1,20 @@
 package com.gabrielgua.refeitorio.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Builder
-@Table(name = "services")
+@Entity
+@Table(name = "atendimentos")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Service {
+public class Atendimento {
 
     @Id
     @EqualsAndHashCode.Include
@@ -24,13 +24,13 @@ public class Service {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "services_products",
-            joinColumns = @JoinColumn(name = "service_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    @JoinTable(name = "atendimentos_produtos",
+            joinColumns = @JoinColumn(name = "atendimento_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id"))
+    private Set<Produto> products = new HashSet<>();
 
-    private OffsetDateTime timeStart;
-    private OffsetDateTime timeEnd;
+    private LocalTime timeStart;
+    private LocalTime timeEnd;
 
     @CreationTimestamp
     private OffsetDateTime createdAt;

@@ -1,5 +1,7 @@
 package com.gabrielgua.refeitorio.api.security;
 
+import com.gabrielgua.refeitorio.api.exception.RestAccessDeniedHandler;
+import com.gabrielgua.refeitorio.api.exception.RestAuthenticationEntryPointHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final SecurityFilter filter;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
+    private final RestAuthenticationEntryPointHandler restAuthenticationEntryPointHandler;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +36,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
+                .anonymous(AbstractHttpConfigurer::disable)
+                .exceptionHandling(handler -> handler
+                        .accessDeniedHandler(restAccessDeniedHandler)
+                        .authenticationEntryPoint(restAuthenticationEntryPointHandler))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
