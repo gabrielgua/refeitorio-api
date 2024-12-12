@@ -24,6 +24,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User findByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+    }
+
+    @Transactional(readOnly = true)
     public List<User> listAll() {
         return repository.findAll();
     }
