@@ -1,1 +1,0 @@
-alter table lunch modify column id bigint not null auto_increment;

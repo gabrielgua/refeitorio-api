@@ -1,6 +1,8 @@
 package com.gabrielgua.refeitorio.domain.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +19,14 @@ public class User {
 
     @Id
     @EqualsAndHashCode.Include
-    @JdbcTypeCode(Types.VARCHAR)
-    private UUID credential;
-
+    private String credential;
     private String name;
-    private String surname;
+    private String email;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+
     private BigDecimal salary;
 }

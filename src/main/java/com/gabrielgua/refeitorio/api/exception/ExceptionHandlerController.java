@@ -1,6 +1,5 @@
 package com.gabrielgua.refeitorio.api.exception;
 
-import com.gabrielgua.refeitorio.domain.exception.LunchStatusException;
 import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +38,7 @@ public class ExceptionHandlerController {
         return handleExceptionInternal(createProblem(status.name(), ex.getMessage(), status.value()));
     }
 
-    @ExceptionHandler(LunchStatusException.class)
-    public ResponseEntity<?> handleLunchStatus(LunchStatusException ex) {
-        var status = HttpStatus.CONFLICT;
-        var problem = createProblem("LUNCH_STATUS", ex.getMessage(), status.value());
-        return handleExceptionInternal(problem);
-    }
+   
 
 
 
