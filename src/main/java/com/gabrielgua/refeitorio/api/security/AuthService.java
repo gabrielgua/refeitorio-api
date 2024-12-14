@@ -1,7 +1,7 @@
 package com.gabrielgua.refeitorio.api.security;
 
-import com.gabrielgua.refeitorio.domain.model.Usuario;
-import com.gabrielgua.refeitorio.domain.service.UsuarioService;
+import com.gabrielgua.refeitorio.domain.model.User;
+import com.gabrielgua.refeitorio.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,9 +16,9 @@ public class AuthService {
 
     private final AuthenticationManager manager;
     private final TokenService tokenService;
-    private final UsuarioService userService;
+    private final UserService userService;
 
-    public AuthResponse register(Usuario user) {
+    public AuthResponse register(User user) {
         var token = tokenService.generateToken(user, defaultClaims(user));
 
         return AuthResponse.builder()
@@ -39,11 +39,12 @@ public class AuthService {
                 .credential(user.getCredential())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .name(user.getName())
                 .token(token)
                 .build();
     }
 
-    private Map<String, Object> defaultClaims(Usuario user) {
+    private Map<String, Object> defaultClaims(User user) {
         var claims = new HashMap<String, Object>();
 
         claims.put("credential", user.getCredential());

@@ -1,8 +1,8 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
-import com.gabrielgua.refeitorio.domain.model.Usuario;
-import com.gabrielgua.refeitorio.domain.repository.UsuarioRepository;
+import com.gabrielgua.refeitorio.domain.model.User;
+import com.gabrielgua.refeitorio.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,27 +12,27 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioService {
+public class UserService {
 
-    private final UsuarioRepository repository;
+    private final UserRepository repository;
 
     @Transactional(readOnly = true)
-    public Usuario findByCredential(String credential) {
+    public User findByCredential(String credential) {
         return repository.findById(credential).orElseThrow(() -> new UserNotFoundException(credential));
     }
 
     @Transactional(readOnly = true)
-    public Usuario findByEmail(String email) {
+    public User findByEmail(String email) {
         return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Transactional(readOnly = true)
-    public List<Usuario> listAll() {
+    public List<User> listAll() {
         return repository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Usuario findRandom() {
+    public User findRandom() {
         var users = listAll();
 
         var rand = new Random();

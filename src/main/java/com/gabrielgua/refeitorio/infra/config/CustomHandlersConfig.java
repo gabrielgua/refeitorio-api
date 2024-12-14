@@ -8,16 +8,3 @@ import com.gabrielgua.refeitorio.api.exception.RestAuthenticationEntryPointHandl
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-
-@Configuration
-public class CustomHandlersConfig {
-    @Bean
-    public RestAccessDeniedHandler restAccessDeniedHandler() {
-        return new RestAccessDeniedHandler();
-    }
-
-    @Bean
-    public RestAuthenticationEntryPointHandler restAuthenticationEntryPointHandler() {
-        return new RestAuthenticationEntryPointHandler();
-    }
-}

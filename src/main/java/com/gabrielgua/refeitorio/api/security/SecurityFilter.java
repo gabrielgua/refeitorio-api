@@ -1,5 +1,9 @@
 package com.gabrielgua.refeitorio.api.security;
 
+import com.gabrielgua.refeitorio.api.exception.OutputResponseHelper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +25,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
+    private final OutputResponseHelper helper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -30,24 +35,28 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
         if (header == null || !header.startsWith("Bearer ")) {
-            System.out.println(header);
             filterChain.doFilter(request, response);
             return;
         }
 
         token = header.substring(7);
-        email = tokenService.getTokenSubject(token);
+        try {
+            email = tokenService.getTokenSubject(token);
 
-        if (email != null && !isAuthenticated()) {
-            var userDetails = userDetailsService.loadUserByUsername(email);
+            if (email != null && !isAuthenticated()) {
+                var userDetails = userDetailsService.loadUserByUsername(email);
+                    if (tokenService.isTokenValid(token, userDetails.getUsername())) {
+                        var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
 
-            if (tokenService.isTokenValid(token, userDetails.getUsername())) {
-                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    filterChain.doFilter(request, response);
             }
-
-            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException ex) {
+            helper.tokenExpired(response);
+        } catch (MalformedJwtException | SignatureException ex) {
+            helper.tokenInvalid(response);
         }
     }
 

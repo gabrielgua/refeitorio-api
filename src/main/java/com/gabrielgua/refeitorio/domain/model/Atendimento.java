@@ -24,10 +24,10 @@ public class Atendimento {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "atendimentos_produtos",
+    @JoinTable(name = "atendimentos_products",
             joinColumns = @JoinColumn(name = "atendimento_id"),
-            inverseJoinColumns = @JoinColumn(name = "produto_id"))
-    private Set<Produto> products = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> products = new HashSet<>();
 
     private LocalTime timeStart;
     private LocalTime timeEnd;

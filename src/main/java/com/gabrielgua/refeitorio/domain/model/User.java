@@ -8,19 +8,19 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "produtos")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Produto {
+@Table(name = "users")
+public class User {
 
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String code;
+    private String credential;
     private String name;
-    private BigDecimal price;
+    private String email;
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    private PriceType priceType;
+    private UserRole role;
+
+
+    private BigDecimal salary;
 }

@@ -1,16 +1,16 @@
 set foreign_key_checks = 0;
 
-delete from usuarios;
+delete from users;
 delete from atendimentos;
-delete from produtos;
-delete from atendimentos_produtos;
+delete from products;
+delete from atendimentos_products;
 
 set foreign_key_checks = 1;
 
 alter table atendimentos auto_increment = 1;
-alter table produtos auto_increment = 1;
+alter table products auto_increment = 1;
 
-insert into usuarios (credential, email, name, role, salary, password) values
+insert into users (credential, email, name, role, salary, password) values
 ("13445", "admin@refeitorio.com", "Admin", "ADMIN", null, "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6"),
 ("43926", "refeitorio@refeitorio.com", "Refeitorio Auto Atentimento", "SELF_SERVICE", null, "$2a$12$8N.KRIqNEXL9bdZGjXobieapdlIrWm9NMaowWWAx96EZjcFUqVnYW"),
 ("87855", "estoque@refeitorio.com", "Estoque Refeitorio", "STOCK", null, "$2a$12$zsfECuMGujmYKVkFqRpPYONb3.Lopmf.MvX2UeEOCfmgy7RKWEYoW"),
@@ -24,7 +24,7 @@ insert into atendimentos (name, time_start, time_end, created_at) values
 ("Lanche da Tarde", "16:00:00", "17:30:00", utc_timestamp),
 ("Jantar", "19:00:00", "21:00:00", utc_timestamp);
 
-insert into produtos (code, name, price, price_type) values
+insert into products (code, name, price, price_type) values
 (null, "Almoço", 15, "PRICE_PER_KG"),
 (null, "Jantar", 0, "PRICE_PER_KG"),
 ("7891234567888", "Suco Natural", 3.49, "PRICE_PER_UNIT"),
@@ -40,7 +40,7 @@ insert into produtos (code, name, price, price_type) values
 ("7891234567898", "Sanduíche Natural", 8.90, "PRICE_PER_UNIT"),
 ("7891234567899", "Mini Pizza", 9.50, "PRICE_PER_UNIT");
 
-insert into atendimentos_produtos (atendimento_id, produto_id) values
+insert into atendimentos_products (atendimento_id, product_id) values
 (1, 3), (1, 4), (1, 11), (1, 13),
 (2, 1),
 (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14),

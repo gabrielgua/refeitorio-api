@@ -1,4 +1,4 @@
-create table usuarios (
+create table users (
     credential varchar(5) not null,
     email varchar(255) not null,
     name varchar(255) not null,

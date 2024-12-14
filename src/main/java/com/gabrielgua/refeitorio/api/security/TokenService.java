@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.api.security;
 
-import com.gabrielgua.refeitorio.domain.model.Usuario;
+import com.gabrielgua.refeitorio.domain.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +31,11 @@ public class TokenService {
                 .compact();
     }
 
-    public String generateToken(Usuario user) {
+    public String generateToken(User user) {
         return buildToken(new HashMap<>(), user.getEmail());
     }
 
-    public String generateToken(Usuario user, Map<String, Object> extraClaims) {
+    public String generateToken(User user, Map<String, Object> extraClaims) {
         return buildToken(extraClaims, user.getEmail());
     }
 
