@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 @RequiredArgsConstructor
 public class ExceptionHandlerController {
 
-    private ExceptionService service;
+    private final ExceptionService service;
 
 
     public ResponseEntity<?> handleExceptionInternal(Problem problem) {
@@ -33,9 +33,4 @@ public class ExceptionHandlerController {
         var status = HttpStatus.NOT_FOUND;
         return handleExceptionInternal(service.createProblem(status.name(), ex.getMessage(), status.value()));
     }
-
-   
-
-
-
 }
