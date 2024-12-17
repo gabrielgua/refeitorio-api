@@ -7,6 +7,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
 @Component
 @RequiredArgsConstructor
 public class TestTokenGeneration implements ApplicationRunner {
@@ -22,5 +26,7 @@ public class TestTokenGeneration implements ApplicationRunner {
 //        claims.put("credential", user.getCredential());
 //        claims.put("role", user.getRole());
 //        System.out.println(tokenService.generateToken(user, claims));
+
+
     }
 }
