@@ -32,6 +32,9 @@ public class Atendimento {
     private LocalTime timeStart;
     private LocalTime timeEnd;
 
+    @Enumerated(EnumType.STRING)
+    private AtendimentoType type;
+
     @CreationTimestamp
     private OffsetDateTime createdAt;
 }

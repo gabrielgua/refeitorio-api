@@ -18,7 +18,6 @@ public class AtendimentoService {
 
     private final AtendimentoRepository repository;
 
-    private static final LocalTime currentTIME = LocalTime.now();
 
     @Transactional(readOnly = true)
     public List<Atendimento> listAll() {
@@ -28,20 +27,23 @@ public class AtendimentoService {
 
     @Transactional(readOnly = true)
     public Optional<Atendimento> findCurrentAtendimento() {
-        return repository.findCurrent(currentTIME);
+        var currentTime = LocalTime.now();
+        return repository.findCurrent(currentTime);
     }
 
     @Transactional(readOnly = true)
     public Atendimento findNextAtendimento() {
+        var currentTime = LocalTime.now();
         return repository
-                .findFirstByTimeStartAfterOrderByTimeStartAsc(currentTIME)
-                .or(() -> repository.findFirstByTimeStartBeforeOrderByTimeStartAsc(currentTIME))
+                .findFirstByTimeStartAfterOrderByTimeStartAsc(currentTime)
+                .or(() -> repository.findFirstByTimeStartBeforeOrderByTimeStartAsc(currentTime))
                 .orElseThrow(() -> new AtendimentoNotFound("Could not find next Atendimento"));
     }
     @Transactional(readOnly = true)
     public Atendimento findPreviousAtendimento() {
-        return repository.findFirstByTimeEndBeforeOrderByTimeEndDesc(currentTIME)
-                .or(() -> repository.findFirstByTimeEndAfterOrderByTimeEndDesc(currentTIME))
+        var currentTime = LocalTime.now();
+        return repository.findFirstByTimeEndBeforeOrderByTimeEndDesc(currentTime)
+                .or(() -> repository.findFirstByTimeEndAfterOrderByTimeEndDesc(currentTime))
                 .orElseThrow(() -> new AtendimentoNotFound("Could not find previous Atendimento"));
     }
 

@@ -21,6 +21,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-
     private BigDecimal salary;
+    private BigDecimal balance;
 }

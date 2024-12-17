@@ -11,11 +11,7 @@ import java.util.Optional;
 @Component
 public class AtendimentoMapper {
 
-    public AtendimentoScheduleResponse toAtendimentoScheduleResponse(Optional<Atendimento> current, Atendimento next, Atendimento previous) {
-        return AtendimentoScheduleResponse.builder()
-                .serving(true)
-                .build();
-    }
+
     public AtendimentoShortResponse toShortResponse(Atendimento atendimento) {
         return AtendimentoShortResponse.builder()
                 .name(atendimento.getName())
