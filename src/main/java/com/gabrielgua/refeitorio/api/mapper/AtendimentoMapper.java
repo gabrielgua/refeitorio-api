@@ -24,6 +24,7 @@ public class AtendimentoMapper {
         return AtendimentoResponse.builder()
                 .id(atendimento.getId())
                 .name(atendimento.getName())
+                .type(atendimento.getType())
                 .timeStart(atendimento.getTimeStart())
                 .timeEnd(atendimento.getTimeEnd())
                 .build();

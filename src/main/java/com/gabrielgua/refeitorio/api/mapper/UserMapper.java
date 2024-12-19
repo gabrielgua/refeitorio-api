@@ -4,6 +4,8 @@ import com.gabrielgua.refeitorio.api.model.UserResponse;
 import com.gabrielgua.refeitorio.domain.model.User;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class UserMapper {
 
@@ -19,9 +21,14 @@ public class UserMapper {
     }
 
     public UserResponse toAtendimentoResponse(User user) {
+        var balance = user.getBalance();
+        if (balance == null) {
+            balance = BigDecimal.ZERO;
+        }
+
         return UserResponse.builder()
                 .credential(user.getCredential())
-                .balance(user.getBalance())
+                .balance(balance)
                 .name(user.getName())
                 .build();
     }

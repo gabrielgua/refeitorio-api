@@ -32,7 +32,7 @@ public class Order {
     private Atendimento atendimento;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<OrderItem> items = new HashSet<>();
+    private List<OrderItem> items = new ArrayList<>();
 
     @CreationTimestamp
     private OffsetDateTime createdAt;
