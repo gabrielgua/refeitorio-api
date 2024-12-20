@@ -12,7 +12,7 @@ import lombok.Setter;
 public class AtendimentoScheduleResponse {
 
     private boolean serving;
-    private AtendimentoResponse current;
-    private AtendimentoShortResponse previous;
+    private AtendimentoModel current;
+    private AtendimentoModel previous;
     private AtendimentoShortResponse next;
 }

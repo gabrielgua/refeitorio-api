@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AtendimentoResponse {
+public class AtendimentoModel {
 
     private Long id;
     private String name;

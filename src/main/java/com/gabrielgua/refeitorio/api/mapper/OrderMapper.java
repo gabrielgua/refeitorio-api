@@ -1,9 +1,10 @@
 package com.gabrielgua.refeitorio.api.mapper;
 
-import com.gabrielgua.refeitorio.api.model.OrderItemModel;
-import com.gabrielgua.refeitorio.api.model.OrderItemRequest;
+import com.gabrielgua.refeitorio.api.model.*;
+import com.gabrielgua.refeitorio.domain.model.Atendimento;
+import com.gabrielgua.refeitorio.domain.model.Order;
 import com.gabrielgua.refeitorio.domain.model.OrderItem;
-import com.gabrielgua.refeitorio.domain.service.ProductService;
+import com.gabrielgua.refeitorio.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,32 +14,57 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderMapper {
 
-    private final ProductMapper productMapper;
-    private final ProductService productService;
+    private final OrderItemMapper orderItemMapper;
 
-    public OrderItemModel toOrderItemModel(OrderItem orderItem) {
-        return OrderItemModel.builder()
-                .id(orderItem.getId())
-                .product(productMapper.toOrderItemResponse(orderItem.getProduct()))
-                .quantity(orderItem.getQuantity())
-                .totalPrice(orderItem.getTotalPrice())
-                .unitPrice(orderItem.getUnitPrice())
+    public Order toEntity(User user, Atendimento atendimento, List<OrderItem> items) {
+        var order = new Order();
+        order.setUser(user);
+        order.setAtendimento(atendimento);
+        order.setItems(items);
+        return order;
+    }
+
+    public OrderModel toModelCreated(Order order) {
+        return OrderModel.builder()
+                .number(order.getNumber())
                 .build();
     }
 
-    public List<OrderItemModel> toCollectionModel(List<OrderItem> items) {
-        return items.stream()
-                .map(this::toOrderItemModel)
+    public OrderModel toModel(Order order) {
+        var user = UserModel.builder()
+                .credential(order.getUser().getCredential())
+                .name(order.getUser().getName())
+                .build();
+
+        var atendimento = AtendimentoModel.builder()
+                .id(order.getAtendimento().getId())
+                .name(order.getAtendimento().getName())
+                .build();
+
+        return OrderModel.builder()
+                .id(order.getId())
+                .number(order.getNumber())
+                .finalPrice(order.getFinalPrice())
+                .originalPrice(order.getOriginalPrice())
+                .discountedPrice(order.getDiscountedPrice())
+                .items(orderItemMapper.toCollectionModel(order.getItems()))
+                .user(user)
+                .atendimento(atendimento)
+                .createdAt(order.getCreatedAt())
+                .build();
+    }
+
+    public List<OrderModel> toCollectionModel(List<Order> orders) {
+        return orders.stream()
+                .map(this::toModel)
                 .toList();
     }
 
-    public OrderItem toEntity(OrderItemRequest request) {
-        var product = productService.findByCode(request.getProductCode());
-        var orderItem = new OrderItem();
 
-        orderItem.setProduct(product);
-        orderItem.setUnitPrice(product.getPrice());
-        orderItem.setQuantity(request.getQuantity());
-        return orderItem;
-    }
+
+
+
+
+
+
 }

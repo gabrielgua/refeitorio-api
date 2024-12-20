@@ -1,6 +1,7 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.api.exception.AtendimentoNotFound;
+import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.repository.AtendimentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class AtendimentoService {
     @Transactional(readOnly = true)
     public List<Atendimento> listAll() {
         return repository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Atendimento findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Atendimento not found for id: %d", id)));
     }
 
 

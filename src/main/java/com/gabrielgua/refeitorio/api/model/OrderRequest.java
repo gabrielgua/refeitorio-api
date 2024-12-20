@@ -16,6 +16,6 @@ public class OrderRequest {
     @NotNull
     private Long atendimentoId;
 
-    @NotBlank
+    @NotNull
     private List<OrderItemRequest> items;
 }

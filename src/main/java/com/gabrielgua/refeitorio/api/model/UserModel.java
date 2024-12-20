@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
+public class UserModel {
 
     private String credential;
     private String name;

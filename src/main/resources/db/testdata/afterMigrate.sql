@@ -1,14 +1,18 @@
 set foreign_key_checks = 0;
 
 delete from users;
-delete from atendimentos;
+delete from orders;
 delete from products;
+delete from order_items;
+delete from atendimentos;
 delete from atendimentos_products;
 
 set foreign_key_checks = 1;
 
 alter table atendimentos auto_increment = 1;
+alter table order_items auto_increment = 1;
 alter table products auto_increment = 1;
+alter table orders auto_increment = 1;
 
 insert into users (credential, email, name, role, salary, balance, password) values
 ("13445", "admin@refeitorio.com", "Admin", "ADMIN", null, null, "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6"),
