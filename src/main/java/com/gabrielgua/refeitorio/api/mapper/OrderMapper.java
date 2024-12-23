@@ -16,11 +16,17 @@ public class OrderMapper {
 
     private final OrderItemMapper orderItemMapper;
 
-    public Order toEntity(User user, Atendimento atendimento, List<OrderItem> items) {
+    public Order toEntity(OrderRequest request) {
+        var atendimento = new Atendimento();
+        atendimento.setId(request.getAtendimentoId());
+
+        var user = new User();
+        user.setCredential(request.getCredential());
+
         var order = new Order();
         order.setUser(user);
         order.setAtendimento(atendimento);
-        order.setItems(items);
+        order.setItems(orderItemMapper.toOrderItemEntityCollection(request.getItems()));
         return order;
     }
 

@@ -15,9 +15,9 @@ import java.util.List;
 public class CartMapper {
 
     private final OrderItemMapper orderItemMapper;
-    public CartResponse toResponse(Order order, List<OrderItem> items, BigDecimal discount) {
+    public CartResponse toResponse(Order order, BigDecimal discount) {
         return CartResponse.builder()
-                .items(orderItemMapper.toCollectionModel(items))
+                .items(orderItemMapper.toCollectionModel(order.getItems()))
                 .finalPrice(order.getFinalPrice())
                 .originalPrice(order.getOriginalPrice())
                 .discountedPrice(order.getDiscountedPrice())

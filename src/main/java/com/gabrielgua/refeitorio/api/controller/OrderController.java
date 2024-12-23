@@ -19,24 +19,13 @@ import java.math.BigDecimal;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final UserService userService;
     private final OrderService orderService;
-    private final AtendimentoService atendimentoService;
     private final OrderMapper mapper;
-    private final OrderItemMapper orderItemMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderModel createOrder(@Valid @RequestBody OrderRequest request) {
-        var user = userService.findByCredential(request.getCredential());
-        var discount = BigDecimal.ZERO;
-
-        var atendimento = atendimentoService.findById(request.getAtendimentoId());
-
-        var items = orderItemMapper.toOrderItemEntityCollection(request.getItems());
-        var order = mapper.toEntity(user, atendimento, items);
-
-        orderService.calculateTotalPrice(order, items, discount);
+        var order = mapper.toEntity(request);
         return mapper.toModelCreated(orderService.save(order));
     }
 }

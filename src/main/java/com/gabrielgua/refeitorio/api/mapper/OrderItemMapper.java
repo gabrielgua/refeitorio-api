@@ -3,6 +3,7 @@ package com.gabrielgua.refeitorio.api.mapper;
 import com.gabrielgua.refeitorio.api.model.OrderItemModel;
 import com.gabrielgua.refeitorio.api.model.OrderItemRequest;
 import com.gabrielgua.refeitorio.domain.model.OrderItem;
+import com.gabrielgua.refeitorio.domain.model.Product;
 import com.gabrielgua.refeitorio.domain.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,11 +17,11 @@ public class OrderItemMapper {
     private final ProductMapper productMapper;
 
     public OrderItem toOrderItemEntity(OrderItemRequest request) {
-        var product = productService.findByCode(request.getProductCode());
-        var orderItem = new OrderItem();
+        var product = new Product();
+        product.setCode(request.getProductCode());
 
+        var orderItem = new OrderItem();
         orderItem.setProduct(product);
-        orderItem.setUnitPrice(product.getPrice());
         orderItem.setQuantity(request.getQuantity());
         return orderItem;
     }

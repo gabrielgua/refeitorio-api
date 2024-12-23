@@ -1,34 +1,47 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.model.Order;
-import com.gabrielgua.refeitorio.domain.model.OrderItem;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository repository;
+    private final ProductService productService;
+    private final UserService userService;
+    private final AtendimentoService atendimentoService;
+
     @Transactional
     public Order save(Order order) {
-        order.getItems().forEach(item -> item.setOrder(order));
+        validateOrder(order);
+        validateItems(order);
 
+        var discount = userService.getDiscount(order.getUser());
+        order.calculatePrice(discount);
         return repository.save(order);
     }
 
-    private List<OrderItem> calculateItemsPrice(List<OrderItem> items) {
-        items.forEach(OrderItem::calculateTotalPrice);
-        return items;
+    public void validateItems(Order order) {
+        order.getItems().forEach(item -> {
+            var product = productService.findByCode(item.getProduct().getCode());
+
+            item.setOrder(order);
+            item.setProduct(product);
+            item.setUnitPrice(product.getPrice());
+        });
     }
 
-    public void calculateTotalPrice(Order order, List<OrderItem> items, BigDecimal discount) {
-        order.setItems(calculateItemsPrice(items));
-        order.calculatePrice(discount);
+    public void validateOrder(Order order) {
+        var user = userService.findByCredential(order.getUser().getCredential());
+        var atendimento = atendimentoService.findById(order.getAtendimento().getId());
+
+        order.setUser(user);
+        order.setAtendimento(atendimento);
     }
+
+
 }

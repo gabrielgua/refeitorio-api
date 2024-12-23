@@ -23,10 +23,10 @@ insert into users (credential, email, name, role, salary, balance, password) val
 ("45789", "gabriel@refeitorio.com", "Gabriel Guaitanele Niszczak", "TERTIARY", 2400, 45, "$2a$12$TX/TVyFKIfrgBCrthQ.FOetRVjXbVnT.EAOfXgOI.8eegPWNftx2W");
 
 insert into atendimentos (name, time_start, time_end, type, created_at) values
-("Café da Manhã", "06:00:00", "10:00:00", "UNIT", utc_timestamp),
-("Almoço", "12:00:00", "14:00:00", "WEIGHT", utc_timestamp),
-("Lanche da Tarde", "16:00:00", "17:30:00", "UNIT", utc_timestamp),
-("Jantar", "19:00:00", "21:00:00", "WEIGHT", utc_timestamp);
+("Café da Manhã", "06:00:00", "12:00:00", "UNIT", utc_timestamp),
+("Almoço", "12:00:00", "16:00:00", "WEIGHT", utc_timestamp),
+("Lanche da Tarde", "16:00:00", "19:00:00", "UNIT", utc_timestamp),
+("Jantar", "19:00:00", "23:59:00", "WEIGHT", utc_timestamp);
 
 insert into products (code, name, price, price_type) values
 (null, "Almoço", 15, "PRICE_PER_KG"),
