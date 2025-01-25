@@ -29,7 +29,7 @@ public class CartController {
         orderService.validateOrder(order);
         orderService.validateItems(order);
 
-        var discount = userService.getDiscount(order.getUser());
+        var discount = userService.getDiscount(order.getClient());
         order.calculatePrice(discount);
 
         return cartMapper.toResponse(order, discount);

@@ -1,10 +1,7 @@
 package com.gabrielgua.refeitorio.api.mapper;
 
 import com.gabrielgua.refeitorio.api.model.*;
-import com.gabrielgua.refeitorio.domain.model.Atendimento;
-import com.gabrielgua.refeitorio.domain.model.Order;
-import com.gabrielgua.refeitorio.domain.model.OrderItem;
-import com.gabrielgua.refeitorio.domain.model.User;
+import com.gabrielgua.refeitorio.domain.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +17,11 @@ public class OrderMapper {
         var atendimento = new Atendimento();
         atendimento.setId(request.getAtendimentoId());
 
-        var user = new User();
-        user.setCredential(request.getCredential());
+        var client = new Client();
+        client.setCredential(request.getCredential());
 
         var order = new Order();
-        order.setUser(user);
+        order.setClient(client);
         order.setAtendimento(atendimento);
         order.setItems(orderItemMapper.toOrderItemEntityCollection(request.getItems()));
         return order;
@@ -38,8 +35,8 @@ public class OrderMapper {
 
     public OrderModel toModel(Order order) {
         var user = UserModel.builder()
-                .credential(order.getUser().getCredential())
-                .name(order.getUser().getName())
+                .credential(order.getClient().getCredential())
+                .name(order.getClient().getName())
                 .build();
 
         var atendimento = AtendimentoModel.builder()

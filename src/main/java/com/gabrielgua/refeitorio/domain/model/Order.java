@@ -25,7 +25,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "credential")
-    private User user;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "atendimento_id")
