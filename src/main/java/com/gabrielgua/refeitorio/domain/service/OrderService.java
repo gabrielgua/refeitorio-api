@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.Order;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class OrderService {
     private final OrderRepository repository;
     private final ProductService productService;
     private final UserService userService;
+    private final ClientService clientService;
     private final AtendimentoService atendimentoService;
 
     @Transactional
@@ -20,7 +22,7 @@ public class OrderService {
         validateOrder(order);
         validateItems(order);
 
-        var discount = userService.getDiscount(order.getUser());
+        var discount = userService.getDiscount(order.getClient());
         order.calculatePrice(discount);
         return repository.save(order);
     }
@@ -36,10 +38,10 @@ public class OrderService {
     }
 
     public void validateOrder(Order order) {
-        var user = userService.findByCredential(order.getUser().getCredential());
+        var client = clientService.findByCredential(order.getClient().getCredential());
         var atendimento = atendimentoService.findById(order.getAtendimento().getId());
 
-        order.setUser(user);
+        order.setClient(client);
         order.setAtendimento(atendimento);
     }
 

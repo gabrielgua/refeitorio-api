@@ -8,16 +8,13 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "clients")
+public class Client {
 
     @Id
     @EqualsAndHashCode.Include
-    private Long ID;
-    private String email;
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
+    private String credential;
+    private String name;
+    private BigDecimal salary;
+    private BigDecimal balance;
 }

@@ -11,16 +11,12 @@ public class UserMapper {
 
     public UserModel toResponse(User user) {
         return UserModel.builder()
-                .credential(user.getCredential())
-                .name(user.getName())
                 .email(user.getEmail())
-                .balance(user.getBalance())
-                .salary(user.getSalary())
                 .role(user.getRole())
                 .build();
     }
 
-    public UserModel toAtendimentoResponse(User user) {
+    /*public UserModel toAtendimentoResponse(User user) {
         var balance = user.getBalance();
         if (balance == null) {
             balance = BigDecimal.ZERO;
@@ -31,5 +27,5 @@ public class UserMapper {
                 .balance(balance)
                 .name(user.getName())
                 .build();
-    }
+    }*/
 }
