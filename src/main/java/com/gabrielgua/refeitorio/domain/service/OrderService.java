@@ -22,7 +22,7 @@ public class OrderService {
         validateOrder(order);
         validateItems(order);
 
-        var discount = userService.getDiscount(order.getClient());
+        var discount = clientService.getDiscount(order.getClient());
         order.calculatePrice(discount);
         return repository.save(order);
     }
@@ -44,6 +44,4 @@ public class OrderService {
         order.setClient(client);
         order.setAtendimento(atendimento);
     }
-
-
 }

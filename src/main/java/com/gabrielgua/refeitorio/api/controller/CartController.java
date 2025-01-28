@@ -4,6 +4,8 @@ import com.gabrielgua.refeitorio.api.mapper.CartMapper;
 import com.gabrielgua.refeitorio.api.mapper.OrderMapper;
 import com.gabrielgua.refeitorio.api.model.CartResponse;
 import com.gabrielgua.refeitorio.api.model.OrderRequest;
+import com.gabrielgua.refeitorio.domain.model.Client;
+import com.gabrielgua.refeitorio.domain.service.ClientService;
 import com.gabrielgua.refeitorio.domain.service.OrderService;
 import com.gabrielgua.refeitorio.domain.service.UserService;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController {
 
     private final UserService userService;
+    private final ClientService clientService;
     private final OrderService orderService;
     private final CartMapper cartMapper;
     private final OrderMapper orderMapper;
@@ -29,7 +32,7 @@ public class CartController {
         orderService.validateOrder(order);
         orderService.validateItems(order);
 
-        var discount = userService.getDiscount(order.getClient());
+        var discount = clientService.getDiscount(order.getClient());
         order.calculatePrice(discount);
 
         return cartMapper.toResponse(order, discount);
