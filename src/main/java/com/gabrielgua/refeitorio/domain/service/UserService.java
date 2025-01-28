@@ -2,6 +2,7 @@ package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
+import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.User;
 import com.gabrielgua.refeitorio.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,6 @@ public class UserService {
 
 
     @Transactional(readOnly = true)
-    public User findByCredential(String credential) {
-        return repository.findById(credential).orElseThrow(() -> new UserNotFoundException(credential));
-    }
-
-    @Transactional(readOnly = true)
     public User findByEmail(String email) {
         return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
@@ -39,19 +35,13 @@ public class UserService {
         return repository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public User findRandom() {
-        var users = listAll();
-
-        var rand = new Random();
-        return users.get(rand.nextInt(users.size()));
-    }
 
     /**
      * @param user
      * @return
      */
     @Transactional(readOnly = true)
+<<<<<<< HEAD
     public BigDecimal getDiscount(User user) {
         BigDecimal discount = BigDecimal.ZERO;
         BigDecimal salary = user.getSalary(); // Extracted variable for salary
@@ -118,4 +108,10 @@ public class UserService {
     
         return discount;
     }    
+=======
+    public BigDecimal getDiscount(Client client) {
+        //TODO: implement discount logic
+        return BigDecimal.valueOf(0.25);
+    }
+>>>>>>> upstream/main
 }
