@@ -33,6 +33,7 @@ public class CartController {
         orderService.validateItems(order);
 
         var discount = clientService.getDiscount(order.getClient());
+
         order.calculatePrice(discount);
 
         return cartMapper.toResponse(order, discount);

@@ -23,6 +23,7 @@ public class OrderService {
         validateItems(order);
 
         var discount = clientService.getDiscount(order.getClient());
+
         order.calculatePrice(discount);
         return repository.save(order);
     }

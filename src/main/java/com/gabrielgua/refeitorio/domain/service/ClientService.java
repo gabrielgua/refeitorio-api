@@ -1,20 +1,21 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
-import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
-import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.User;
-import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.math.BigDecimal;
+
+
+import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
+import com.gabrielgua.refeitorio.domain.model.Client;
+import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
+
 
 
     private final AtendimentoService atendimentoService;
@@ -29,6 +30,7 @@ public class ClientService {
     public Client save(Client client){
         return  repository.save(client);
     }
+    
     @Transactional(readOnly = true)
     public BigDecimal getDiscount(Client client) {
         BigDecimal discount = BigDecimal.ZERO;
@@ -96,5 +98,4 @@ public class ClientService {
 
         return discount;
     }
-
 }
