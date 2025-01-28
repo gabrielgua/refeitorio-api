@@ -1,10 +1,13 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.User;
 import com.gabrielgua.refeitorio.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +31,4 @@ public class UserService {
         return repository.findAll();
     }
 
-
-    @Transactional(readOnly = true)
-    public BigDecimal getDiscount(Client client) {
-        //TODO: implement discount logic
-        return BigDecimal.valueOf(0.25);
-    }
 }
