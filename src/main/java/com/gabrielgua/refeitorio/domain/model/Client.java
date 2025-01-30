@@ -17,4 +17,7 @@ public class Client {
     private String name;
     private BigDecimal salary;
     private BigDecimal balance;
+
+    @Enumerated(EnumType.STRING)
+    private ClientType type;
 }

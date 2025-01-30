@@ -22,7 +22,7 @@ public class OrderService {
         validateOrder(order);
         validateItems(order);
 
-        var discount = clientService.getDiscount(order.getClient());
+        var discount = clientService.getDiscount(order.getAtendimento(), order.getClient());
 
         order.calculatePrice(discount);
         return repository.save(order);

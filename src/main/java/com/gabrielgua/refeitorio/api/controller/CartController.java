@@ -32,7 +32,7 @@ public class CartController {
         orderService.validateOrder(order);
         orderService.validateItems(order);
 
-        var discount = clientService.getDiscount(order.getClient());
+        var discount = clientService.getDiscount(order.getAtendimento(), order.getClient());
 
         order.calculatePrice(discount);
 

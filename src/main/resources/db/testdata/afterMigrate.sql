@@ -19,10 +19,15 @@ alter table clients auto_increment = 1;
 insert into users (email, role, password) values
 ("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6");
 
-insert into clients (credential, name, role, salary, balance) values
-("55555", "João Maria do Santos", "João", 1000.00, null),
-("55554", "Pedro Maria do Santos", "Pedro", 1002.00, 1.00);
-
+insert into clients (credential, name, role, salary, balance, type) values
+("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, "ESTAGIARIO"),
+("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, 1.00, "ACADEMICOS_CEPEP"),
+("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, 1.00, "FUNCIONARIO_CLT_E_APRENDIZ"),
+("32456", "RFCC Teste", "RFCC", 2000, null, "RFCC"),
+("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null, "CORPO_CLINICO"),
+("71893", "Redidentes Teste", "Residente e Especializando", 1670, null, "RESIDENTE_E_ESPECIALIZANDO"),
+("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, "FUNCIONARIO_SND_PRODUCAO"),
+("90090", "Teste Credencial", "Credencial Não Compatível com Tipo", 3670, null, "FUNCIONARIO_SND_PRODUCAO");
 
 insert into atendimentos (name, time_start, time_end, type, created_at) values
 ("Café da Manhã", "06:00:00", "12:00:00", "UNIT", utc_timestamp),
