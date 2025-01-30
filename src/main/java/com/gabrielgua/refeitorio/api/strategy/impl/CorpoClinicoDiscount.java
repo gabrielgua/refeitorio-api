@@ -4,7 +4,7 @@ import com.gabrielgua.refeitorio.api.strategy.OrderDiscountStrategy;
 import com.gabrielgua.refeitorio.api.strategy.StrategyTypeValidator;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.ClientType;
+import com.gabrielgua.refeitorio.domain.model.DiscountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class CorpoClinicoDiscount implements OrderDiscountStrategy {
     }
 
     @Override
-    public ClientType getClientType() {
-        return ClientType.CORPO_CLINICO;
+    public DiscountType getDiscountType() {
+        return DiscountType.CORPO_CLINICO;
     }
 }

@@ -4,7 +4,7 @@ import com.gabrielgua.refeitorio.api.strategy.OrderDiscountStrategy;
 import com.gabrielgua.refeitorio.api.strategy.StrategyTypeValidator;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.ClientType;
+import com.gabrielgua.refeitorio.domain.model.DiscountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
-public class ResidenteDiscount implements OrderDiscountStrategy {
+public class ResidentesDiscount implements OrderDiscountStrategy {
 
     private final StrategyTypeValidator validator;
 
@@ -24,7 +24,7 @@ public class ResidenteDiscount implements OrderDiscountStrategy {
     }
 
     @Override
-    public ClientType getClientType() {
-        return ClientType.RESIDENTE_E_ESPECIALIZANDO;
+    public DiscountType getDiscountType() {
+        return DiscountType.RESIDENTES;
     }
 }

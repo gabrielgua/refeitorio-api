@@ -5,7 +5,7 @@ import com.gabrielgua.refeitorio.api.strategy.OrderDiscountStrategy;
 import com.gabrielgua.refeitorio.api.strategy.StrategyTypeValidator;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.ClientType;
+import com.gabrielgua.refeitorio.domain.model.DiscountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
-public class FuncionarioCLTDiscount implements OrderDiscountStrategy {
+public class FuncionariosDiscount implements OrderDiscountStrategy {
 
     private final StrategyTypeValidator validator;
 
@@ -24,6 +24,8 @@ public class FuncionarioCLTDiscount implements OrderDiscountStrategy {
 
         var salary = client.getSalary();
         validateSalary(salary);
+
+        //TODO: check if client has 100% discount for being FUNCIONARIO_SND_PRODUCAO
 
         if (atendimento.getName().equals("Jantar")) {
             discount = BigDecimal.ONE;
@@ -47,8 +49,8 @@ public class FuncionarioCLTDiscount implements OrderDiscountStrategy {
     }
 
     @Override
-    public ClientType getClientType() {
-        return ClientType.FUNCIONARIO_CLT_E_APRENDIZ;
+    public DiscountType getDiscountType() {
+        return DiscountType.FUNCIONARIOS;
     }
 
     private void validateSalary(BigDecimal salary) {

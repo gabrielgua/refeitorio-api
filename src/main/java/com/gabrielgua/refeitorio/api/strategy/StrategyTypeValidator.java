@@ -9,10 +9,9 @@ public class StrategyTypeValidator {
 
     private Boolean isClientTypeEligibleForStrategy(Client client, OrderDiscountStrategy strategy) {
         var credential = Integer.parseInt(client.getCredential());
-        var clientType = client.getType();
-        var strategyType = strategy.getClientType();
+        var strategyType = strategy.getDiscountType();
 
-        return clientType.equals(strategyType) && strategyType.isCredentialEligible(credential);
+        return strategyType.applies(credential);
     }
 
     public void validate(Client client, OrderDiscountStrategy strategy) {

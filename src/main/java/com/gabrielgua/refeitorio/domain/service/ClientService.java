@@ -36,6 +36,8 @@ public class ClientService {
     
     @Transactional(readOnly = true)
     public BigDecimal getDiscount(Atendimento atendimento, Client client) {
-       return discountFactory.getStrategy(client.getType()).getDiscount(atendimento, client);
+       return discountFactory
+               .getStrategy(client.getCredential())
+               .getDiscount(atendimento, client);
     }
 }
