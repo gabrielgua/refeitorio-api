@@ -18,21 +18,22 @@ alter table orders auto_increment = 1;
 insert into users (email, role, password) values
 ("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6");
 
-insert into clients (credential, name, role, salary, balance) values
-("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null),
-("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, 1.00),
-("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, 1.00),
-("32456", "RFCC Teste", "RFCC", 2000, null),
-("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null),
-("71893", "Redidentes Teste", "Residente e Especializando", 1670, null),
-("00234", "SND Produção Teste", "Nutricionista N1", 3670, null),
-("90090", "Teste Credencial", "Credencial Não Compatível com Tipo", 3670, null);
+insert into clients (credential, name, role, salary, balance, free_of_charge) values
+("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false),
+("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, 1.00, false),
+("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, 1.00, false),
+("32456", "RFCC Teste", "RFCC", 2000, null, false),
+("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null, false),
+("71893", "Redidentes Teste", "Residente e Especializando", 1670, null, false),
+("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, true),
+("90090", "Teste Credencial", "Credencial Não Compatível com Tipo", 3670, null, false);
 
-insert into atendimentos (name, time_start, time_end, type, created_at) values
-("Café da Manhã", "06:00:00", "12:00:00", "UNIT", utc_timestamp),
-("Almoço", "12:00:00", "16:00:00", "WEIGHT", utc_timestamp),
-("Lanche da Tarde", "16:00:00", "19:00:00", "UNIT", utc_timestamp),
-("Jantar", "19:00:00", "23:59:00", "WEIGHT", utc_timestamp);
+
+insert into atendimentos (name, code, time_start, time_end, price_type, created_at) values
+("Café da Manhã", "CAFE_001", "06:00:00", "12:00:00", "PRICE_PER_UNIT", utc_timestamp),
+("Almoço", "ALMOCO_002", "12:00:00", "16:00:00", "PRICE_PER_KG", utc_timestamp),
+("Lanche da Tarde", "LANCHE_003","16:00:00", "19:00:00", "PRICE_PER_UNIT", utc_timestamp),
+("Jantar", "JANTAR_004","19:00:00", "23:59:00", "PRICE_PER_KG", utc_timestamp);
 
 insert into products (code, name, price, price_type) values
 (null, "Almoço", 15, "PRICE_PER_KG"),

@@ -14,9 +14,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartResponse {
 
-    private List<OrderItemModel> items;
     private BigDecimal discount;
     private BigDecimal finalPrice;
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
+    private List<OrderItemModel> items;
 }

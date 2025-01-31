@@ -1,8 +1,9 @@
 package com.gabrielgua.refeitorio.api.strategy.impl;
 
 import com.gabrielgua.refeitorio.api.exception.BusinessException;
+import com.gabrielgua.refeitorio.api.strategy.AtendimentoCodeValidator;
 import com.gabrielgua.refeitorio.api.strategy.OrderDiscountStrategy;
-import com.gabrielgua.refeitorio.api.strategy.StrategyTypeValidator;
+import com.gabrielgua.refeitorio.api.strategy.DiscountCredentialValidator;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.DiscountType;
@@ -15,23 +16,26 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class FuncionariosDiscount implements OrderDiscountStrategy {
 
-    private final StrategyTypeValidator validator;
+    private final DiscountCredentialValidator validator;
+    private final AtendimentoCodeValidator atendimentoValidator;
 
     @Override
     public BigDecimal getDiscount(Atendimento atendimento, Client client) {
-        var discount = BigDecimal.ZERO;
         validator.validate(client, this);
 
+        var discount = BigDecimal.ZERO;
         var salary = client.getSalary();
-        validateSalary(salary);
 
-        //TODO: check if client has 100% discount for being FUNCIONARIO_SND_PRODUCAO
 
-        if (atendimento.getName().equals("Jantar")) {
+        if (client.getFreeOfCharge()) {
+            return BigDecimal.ONE;
+        }
+
+        if (atendimento.getCode().equals(AtendimentoCodeValidator.JANTAR)) {
             discount = BigDecimal.ONE;
         }
 
-        if (atendimento.getName().equals("Almoço")) {
+        if (atendimentoValidator.validate(atendimento, AtendimentoCodeValidator.ALMOCO)) {
             if (isSalaryInRange(salary, BigDecimal.ONE, BigDecimal.valueOf(1000))) {
                 discount = BigDecimal.valueOf(0.7);
             }
@@ -51,12 +55,6 @@ public class FuncionariosDiscount implements OrderDiscountStrategy {
     @Override
     public DiscountType getDiscountType() {
         return DiscountType.FUNCIONARIOS;
-    }
-
-    private void validateSalary(BigDecimal salary) {
-        if (salary.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new BusinessException("Salary cannot be negative!");
-        }
     }
 
     private Boolean isSalaryInRange(BigDecimal salary, BigDecimal min, BigDecimal max) {

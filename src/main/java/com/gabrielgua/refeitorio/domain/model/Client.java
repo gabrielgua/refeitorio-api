@@ -17,4 +17,5 @@ public class Client {
     private String name;
     private BigDecimal salary;
     private BigDecimal balance;
+    private Boolean freeOfCharge;
 }

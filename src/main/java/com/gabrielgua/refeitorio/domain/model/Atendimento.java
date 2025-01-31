@@ -21,6 +21,9 @@ public class Atendimento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String code;
+
     private String name;
 
     @ManyToMany
@@ -33,7 +36,7 @@ public class Atendimento {
     private LocalTime timeEnd;
 
     @Enumerated(EnumType.STRING)
-    private AtendimentoType type;
+    private PriceType priceType;
 
     @CreationTimestamp
     private OffsetDateTime createdAt;

@@ -1,0 +1,1 @@
+alter table atendimentos add column code varchar(100) not null;
