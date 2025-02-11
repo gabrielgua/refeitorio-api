@@ -28,6 +28,14 @@ public class ClientService {
 
     @Transactional
     public Client save(Client client){
+        if (client.getBalance() == null) {
+            client.setBalance(BigDecimal.ZERO);
+        }
+
+        if (client.getFreeOfCharge() == null) {
+            client.setFreeOfCharge(false);
+        }
+
         return repository.save(client);
     }
     

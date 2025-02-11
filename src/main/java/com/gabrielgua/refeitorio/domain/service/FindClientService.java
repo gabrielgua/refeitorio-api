@@ -7,13 +7,15 @@ import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -22,57 +24,42 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FindClientService {
 
+    private static final String BENNER_API_ENDPOINT = "/{credential}";
 
-    private final RestTemplate restTemplate;
     private final ClientRepository repository;
-    private static final String BENNER_API_ENDPOINT = "http://172.16.1.92:8080/usuarios/{credential}";
+    private final ClientService clientService;
+    private final WebClient webClient;
 
-    @Transactional(readOnly = true)
+    @Transactional(noRollbackFor = BusinessException.class)
     public Client findByCredential(String credential) {
         return repository
                 .findByCredential(credential)
-                .orElse(consultAndSaveFromBenner(credential));
+                .orElseGet(() -> consultAndSaveFromBenner(credential));
     }
 
     private Client consultAndSaveFromBenner(String credential) {
-        try {
-            ResponseEntity<ConsultClientResponse> response = restTemplate.exchange(
-                    BENNER_API_ENDPOINT,
-                    HttpMethod.GET,
-                    null,
-                    ConsultClientResponse.class,
-                    credential
-            );
-
-            var clientResponse = Objects.requireNonNull(response.getBody());
-
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                log.debug(String.valueOf(clientResponse));
-                throw new BusinessException("Non 200 response from Benner API");
-            }
-
-            return repository.save(fromConsultClientResponse(clientResponse));
-
-        } catch (HttpClientErrorException.NotFound ex) {
-            log.warn("User with credential {} not found in external API", credential);
-            throw new UserNotFoundException("User with credential " + credential + " not found in external API");
-        } catch (HttpClientErrorException ex) {
-            log.error("Client error while fetching user: {}", ex.getResponseBodyAsString());
-            throw new BusinessException("Client error while fetching user: " + ex.getResponseBodyAsString());
-        } catch (ResourceAccessException ex) {
-            log.error("Timeout or network issue while fetching user: {}", ex.getMessage());
-            throw new BusinessException("Timeout or network issue while fetching user: " + ex.getMessage());
-        } catch (Exception ex) {
-            log.error("Unexpected error while fetching user", ex);
-            throw new BusinessException("Unexpected error while fetching user: " + ex.getMessage());
-        }
+        return webClient.get()
+                .uri(BENNER_API_ENDPOINT, credential)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, response ->
+                        Mono.error(new UserNotFoundException(credential)))
+                .onStatus(HttpStatusCode::is5xxServerError, response ->
+                        Mono.error(new BusinessException("Server error: " + response.statusCode()))
+                )
+                .bodyToMono(ConsultClientResponse.class)
+                .switchIfEmpty(Mono.error(new UserNotFoundException(credential))) // Handles empty responses
+                .map(this::fromConsultClientResponse) // maps the response to Client class
+                .map(clientService::save) // saves the Client class and maps it to its response
+                .block();
     }
 
     private Client fromConsultClientResponse(ConsultClientResponse consultClientResponse) {
         var client = new Client();
-        client.setCredential(consultClientResponse.getCredential());
         client.setName(consultClientResponse.getName());
+        client.setRole(consultClientResponse.getRole());
         client.setSalary(consultClientResponse.getSalary());
+        client.setCredential(consultClientResponse.getCredential());
         return client;
     }
+
 }
