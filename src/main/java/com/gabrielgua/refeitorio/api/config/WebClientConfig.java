@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.api.config;
 
+import com.gabrielgua.refeitorio.api.exception.BusinessException;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -9,9 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.reactive.function.client.*;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.util.retry.Retry;
@@ -37,9 +36,14 @@ public class WebClientConfig {
                                 conn.addHandlerLast(new ReadTimeoutHandler(5, TimeUnit.SECONDS))
                                         .addHandlerLast(new WriteTimeoutHandler(5, TimeUnit.SECONDS))
                         )))
+                .filter((request, next) -> next.exchange(request)
+                        .onErrorMap(WebClientRequestException.class, ex ->
+                                new BusinessException("Timeout from server: " + ex.getMessage())
+                        ))
                 .filter(retryFilter())
                 .build();
     }
+
 
     private ExchangeFilterFunction retryFilter() {
         return ExchangeFilterFunction.ofResponseProcessor(response -> {
