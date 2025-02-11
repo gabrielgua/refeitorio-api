@@ -13,13 +13,13 @@ import java.util.List;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrderModel {
+public class OrderResponse {
 
     private Long id;
     private String number;
-    private UserModel user;
+    private ClientResponse client;
     private AtendimentoModel atendimento;
-    private List<OrderItemModel> items;
+    private List<OrderItemResponse> items;
     private BigDecimal finalPrice;
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;

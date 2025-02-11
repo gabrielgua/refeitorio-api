@@ -1,16 +1,14 @@
 package com.gabrielgua.refeitorio.api.mapper;
 
-import com.gabrielgua.refeitorio.api.model.UserModel;
+import com.gabrielgua.refeitorio.api.model.UserResponse;
 import com.gabrielgua.refeitorio.domain.model.User;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class UserMapper {
 
-    public UserModel toResponse(User user) {
-        return UserModel.builder()
+    public UserResponse toResponse(User user) {
+        return UserResponse.builder()
                 .email(user.getEmail())
                 .role(user.getRole())
                 .build();

@@ -18,5 +18,5 @@ public class CartResponse {
     private BigDecimal finalPrice;
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
-    private List<OrderItemModel> items;
+    private List<OrderItemResponse> items;
 }

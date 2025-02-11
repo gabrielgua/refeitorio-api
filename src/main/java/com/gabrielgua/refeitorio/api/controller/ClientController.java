@@ -1,5 +1,7 @@
 package com.gabrielgua.refeitorio.api.controller;
 
+import com.gabrielgua.refeitorio.api.mapper.ClientMapper;
+import com.gabrielgua.refeitorio.api.model.ClientResponse;
 import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.service.FindClientService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
 
     private final FindClientService findClientService;
+    private final ClientMapper clientMapper;
 
     @GetMapping("/{credential}")
-    private Client getByCredential(@PathVariable String credential) {
-        return findClientService.findByCredential(credential);
+    private ClientResponse getByCredential(@PathVariable String credential) {
+        return clientMapper.toModel(findClientService.findByCredential(credential));
     }
 }

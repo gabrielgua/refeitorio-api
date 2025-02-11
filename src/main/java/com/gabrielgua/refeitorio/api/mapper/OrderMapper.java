@@ -27,14 +27,14 @@ public class OrderMapper {
         return order;
     }
 
-    public OrderModel toModelCreated(Order order) {
-        return OrderModel.builder()
+    public OrderResponse toModelCreated(Order order) {
+        return OrderResponse.builder()
                 .number(order.getNumber())
                 .build();
     }
 
-    public OrderModel toModel(Order order) {
-        var user = UserModel.builder()
+    public OrderResponse toModel(Order order) {
+        var client = ClientResponse.builder()
                 .credential(order.getClient().getCredential())
                 .name(order.getClient().getName())
                 .build();
@@ -44,20 +44,20 @@ public class OrderMapper {
                 .name(order.getAtendimento().getName())
                 .build();
 
-        return OrderModel.builder()
+        return OrderResponse.builder()
                 .id(order.getId())
                 .number(order.getNumber())
                 .finalPrice(order.getFinalPrice())
                 .originalPrice(order.getOriginalPrice())
                 .discountedPrice(order.getDiscountedPrice())
                 .items(orderItemMapper.toCollectionModel(order.getItems()))
-                .user(user)
+                .client(client)
                 .atendimento(atendimento)
                 .createdAt(order.getCreatedAt())
                 .build();
     }
 
-    public List<OrderModel> toCollectionModel(List<Order> orders) {
+    public List<OrderResponse> toCollectionModel(List<Order> orders) {
         return orders.stream()
                 .map(this::toModel)
                 .toList();

@@ -22,7 +22,7 @@ public class AuthService {
         var token = tokenService.generateToken(user, defaultClaims(user));
 
         return AuthResponse.builder()
-                .id(user.getID())
+                .id(user.getId())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .token(token)
@@ -36,7 +36,7 @@ public class AuthService {
         var token = tokenService.generateToken(user, defaultClaims(user));
 
         return AuthResponse.builder()
-                .id(user.getID())
+                .id(user.getId())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .token(token)
@@ -46,7 +46,7 @@ public class AuthService {
     private Map<String, Object> defaultClaims(User user) {
         var claims = new HashMap<String, Object>();
 
-        claims.put("user_id", user.getID());
+        claims.put("user_id", user.getId());
 
         return claims;
     }
