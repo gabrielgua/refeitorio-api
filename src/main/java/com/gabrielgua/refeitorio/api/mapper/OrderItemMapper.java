@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.api.mapper;
 
-import com.gabrielgua.refeitorio.api.model.OrderItemModel;
+import com.gabrielgua.refeitorio.api.model.OrderItemResponse;
 import com.gabrielgua.refeitorio.api.model.OrderItemRequest;
 import com.gabrielgua.refeitorio.domain.model.OrderItem;
 import com.gabrielgua.refeitorio.domain.model.Product;
@@ -26,7 +26,7 @@ public class OrderItemMapper {
         return orderItem;
     }
 
-    public List<OrderItemModel> toCollectionModel(List<OrderItem> items) {
+    public List<OrderItemResponse> toCollectionModel(List<OrderItem> items) {
         return items.stream()
                 .map(this::toOrderItemModel)
                 .toList();
@@ -38,8 +38,8 @@ public class OrderItemMapper {
                 .toList();
     }
 
-    public OrderItemModel toOrderItemModel(OrderItem orderItem) {
-        return OrderItemModel.builder()
+    public OrderItemResponse toOrderItemModel(OrderItem orderItem) {
+        return OrderItemResponse.builder()
                 .id(orderItem.getId())
                 .product(productMapper.toOrderItemResponse(orderItem.getProduct()))
                 .quantity(orderItem.getQuantity())

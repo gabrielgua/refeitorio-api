@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrderItemModel {
+public class OrderItemResponse {
 
     private Long id;
     private Integer quantity;

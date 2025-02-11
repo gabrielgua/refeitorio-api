@@ -13,8 +13,8 @@ public class OrderService {
 
     private final OrderRepository repository;
     private final ProductService productService;
-    private final UserService userService;
     private final ClientService clientService;
+    private final FindClientService findClientService;
     private final AtendimentoService atendimentoService;
 
     @Transactional
@@ -39,7 +39,7 @@ public class OrderService {
     }
 
     public void validateOrder(Order order) {
-        var client = clientService.findByCredential(order.getClient().getCredential());
+        var client = findClientService.findByCredential(order.getClient().getCredential());
         var atendimento = atendimentoService.findById(order.getAtendimento().getId());
 
         order.setClient(client);

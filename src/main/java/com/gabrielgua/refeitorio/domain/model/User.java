@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
-
 @Data
 @Entity
 @Table(name = "users")
@@ -13,7 +11,7 @@ public class User {
 
     @Id
     @EqualsAndHashCode.Include
-    private Long ID;
+    private Long Id;
     private String email;
     private String password;
 
