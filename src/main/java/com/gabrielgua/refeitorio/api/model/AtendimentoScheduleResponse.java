@@ -14,5 +14,5 @@ public class AtendimentoScheduleResponse {
     private boolean serving;
     private AtendimentoModel current;
     private AtendimentoModel previous;
-    private AtendimentoShortResponse next;
+    private AtendimentoModel next;
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -13,9 +14,13 @@ public class OrderRequest {
 
     @NotBlank
     private String credential;
+
     @NotNull
     private Long atendimentoId;
 
     @NotNull
     private List<OrderItemRequest> items;
+
+    private BigDecimal weight;
+
 }

@@ -19,4 +19,5 @@ public class ProductResponse {
     private String name;
     private BigDecimal price;
     private PriceType priceType;
+    private Boolean allowMultiple;
 }

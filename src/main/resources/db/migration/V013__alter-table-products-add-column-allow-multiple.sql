@@ -1,0 +1,1 @@
+alter table products add column allow_multiple tinyint(1) not null default true;

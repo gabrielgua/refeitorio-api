@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.model;
 
+import com.gabrielgua.refeitorio.api.strategy.AtendimentoCodeValidator;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

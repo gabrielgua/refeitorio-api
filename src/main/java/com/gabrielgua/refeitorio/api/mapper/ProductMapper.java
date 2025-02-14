@@ -13,6 +13,7 @@ public class ProductMapper {
                 .code(product.getCode())
                 .name(product.getName())
                 .price(product.getPrice())
+                .allowMultiple(product.getAllowMultiple())
                 .priceType(product.getPriceType())
                 .build();
     }
@@ -21,6 +22,8 @@ public class ProductMapper {
         return ProductResponse.builder()
                 .code(product.getCode())
                 .name(product.getName())
+                .allowMultiple(product.getAllowMultiple())
+                .priceType(product.getPriceType())
                 .build();
     }
 

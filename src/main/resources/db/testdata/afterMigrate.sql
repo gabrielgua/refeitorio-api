@@ -35,21 +35,21 @@ insert into atendimentos (name, code, time_start, time_end, price_type, created_
 ("Lanche da Tarde", "LANCHE_003","16:00:00", "19:00:00", "PRICE_PER_UNIT", utc_timestamp),
 ("Jantar", "JANTAR_004","19:00:00", "23:59:00", "PRICE_PER_KG", utc_timestamp);
 
-insert into products (code, name, price, price_type) values
-(null, "Almoço", 15, "PRICE_PER_KG"),
-(null, "Jantar", 0, "PRICE_PER_KG"),
-("7891234567888", "Suco Natural", 3.49, "PRICE_PER_UNIT"),
-("7891234567889", "Café Preto", 2.99, "PRICE_PER_UNIT"),
-("7891234567890", "Coxinha", 5.99, "PRICE_PER_UNIT"),
-("7891234567891", "Pão de Queijo", 4.50, "PRICE_PER_UNIT"),
-("7891234567892", "Empada de Frango", 6.50, "PRICE_PER_UNIT"),
-("7891234567893", "Quibe", 3.80, "PRICE_PER_UNIT"),
-("7891234567894", "Pastel de Carne", 7.00, "PRICE_PER_UNIT"),
-("7891234567895", "Esfirra de Queijo", 5.50, "PRICE_PER_UNIT"),
-("7891234567896", "Bolo de Cenoura", 3.90, "PRICE_PER_UNIT"),
-("7891234567897", "Torta de Limão", 4.99, "PRICE_PER_UNIT"),
-("7891234567898", "Sanduíche Natural", 8.90, "PRICE_PER_UNIT"),
-("7891234567899", "Mini Pizza", 9.50, "PRICE_PER_UNIT");
+insert into products (code, name, price, price_type, allow_multiple) values
+("7891234567886", "Almoço", 15, "PRICE_PER_KG", false),
+("7891234567887", "Jantar", 15, "PRICE_PER_KG", false),
+("7891234567888", "Lanche da tarde", 6.49, "PRICE_PER_UNIT", true),
+("7891234567889", "Café da Manhã", 2.99, "PRICE_PER_UNIT", true),
+("7891234567890", "Coxinha", 5.99, "PRICE_PER_UNIT", true),
+("7891234567891", "Pão de Queijo", 4.50, "PRICE_PER_UNIT", true),
+("7891234567892", "Empada de Frango", 6.50, "PRICE_PER_UNIT", true),
+("7891234567893", "Quibe", 3.80, "PRICE_PER_UNIT", true),
+("7891234567894", "Pastel de Carne", 7.00, "PRICE_PER_UNIT", true),
+("7891234567895", "Esfirra de Queijo", 5.50, "PRICE_PER_UNIT", true),
+("7891234567896", "Bolo de Cenoura", 3.90, "PRICE_PER_UNIT", true),
+("7891234567897", "Torta de Limão", 4.99, "PRICE_PER_UNIT", true),
+("7891234567898", "Sanduíche Natural", 8.90, "PRICE_PER_UNIT", true),
+("7891234567899", "Mini Pizza", 9.50, "PRICE_PER_UNIT", true);
 
 insert into atendimentos_products (atendimento_id, product_id) values
 (1, 3), (1, 4), (1, 11), (1, 13),

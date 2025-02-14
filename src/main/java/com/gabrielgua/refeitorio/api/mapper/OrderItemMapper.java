@@ -23,6 +23,7 @@ public class OrderItemMapper {
         var orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setQuantity(request.getQuantity());
+        orderItem.setWeight(request.getWeight());
         return orderItem;
     }
 

@@ -29,7 +29,7 @@ public class AtendimentoController {
         var response = AtendimentoScheduleResponse.builder()
                 .serving(serving)
                 .previous(mapper.toResponse(previous))
-                .next(mapper.toShortResponse(next));
+                .next(mapper.toResponse(next));
 
         current.ifPresent(atendimento -> response.current(mapper.toResponse(atendimento)));
 

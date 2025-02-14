@@ -23,4 +23,6 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     private PriceType priceType;
+
+    private Boolean allowMultiple;
 }

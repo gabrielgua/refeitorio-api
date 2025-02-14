@@ -17,9 +17,11 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private BigDecimal weight;
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
+
 
     @ManyToOne
     private Order order;
@@ -30,6 +32,7 @@ public class OrderItem {
     public void calculateTotalPrice() {
         var unitPrice = getUnitPrice();
         var quantity = getQuantity();
+        var weight = getWeight();
 
         if (unitPrice == null) {
             unitPrice = BigDecimal.ZERO;
@@ -39,6 +42,14 @@ public class OrderItem {
             quantity = 0;
         }
 
-        setTotalPrice(unitPrice.multiply(new BigDecimal(quantity)));
+        if (weight == null) {
+            weight = BigDecimal.ONE;
+        }
+
+        if (!product.getAllowMultiple()) {
+            quantity = 1;
+        }
+
+        setTotalPrice(unitPrice.multiply(new BigDecimal(quantity)).multiply(weight));
     }
 }
