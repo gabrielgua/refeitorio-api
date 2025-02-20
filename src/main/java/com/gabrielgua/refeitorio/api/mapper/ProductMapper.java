@@ -27,13 +27,13 @@ public class ProductMapper {
                 .build();
     }
 
-    public Product toEntity(ProductResponse model) {
+    public Product toEntity(ProductResponse request) {
         var product = new Product();
-        product.setId(model.getId());
-        product.setCode(model.getCode());
-        product.setName(model.getName());
-        product.setPrice(model.getPrice());
-        product.setPriceType(model.getPriceType());
+        product.setId(request.getId());
+        product.setCode(request.getCode());
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setPriceType(request.getPriceType());
         return product;
     }
 }

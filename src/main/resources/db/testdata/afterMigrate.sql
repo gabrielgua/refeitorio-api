@@ -36,10 +36,10 @@ insert into atendimentos (name, code, time_start, time_end, price_type, created_
 ("Jantar", "JANTAR_004","19:00:00", "23:59:00", "PRICE_PER_KG", utc_timestamp);
 
 insert into products (code, name, price, price_type, allow_multiple) values
-("7891234567886", "Almoço", 15, "PRICE_PER_KG", false),
-("7891234567887", "Jantar", 15, "PRICE_PER_KG", false),
-("7891234567888", "Lanche da tarde", 6.49, "PRICE_PER_UNIT", true),
-("7891234567889", "Café da Manhã", 2.99, "PRICE_PER_UNIT", true),
+("7891234567886", "Almoço", 16, "PRICE_PER_KG", false),
+("7891234567887", "Jantar", 16, "PRICE_PER_KG", false),
+("7891234567888", "Lanche da tarde", 5.84, "PRICE_PER_UNIT", true),
+("7891234567889", "Café da Manhã", 5.84, "PRICE_PER_UNIT", true),
 ("7891234567890", "Coxinha", 5.99, "PRICE_PER_UNIT", true),
 ("7891234567891", "Pão de Queijo", 4.50, "PRICE_PER_UNIT", true),
 ("7891234567892", "Empada de Frango", 6.50, "PRICE_PER_UNIT", true),
