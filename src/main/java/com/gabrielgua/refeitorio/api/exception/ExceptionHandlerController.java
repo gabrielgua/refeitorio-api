@@ -33,4 +33,10 @@ public class ExceptionHandlerController {
         var status = HttpStatus.NOT_FOUND;
         return handleExceptionInternal(service.createProblem(status.name(), ex.getMessage(), status.value()));
     }
+
+    @ExceptionHandler(ClientBalanceLimitReachedException.class)
+    public ResponseEntity<?> handleClientBalanceLimitReached(ClientBalanceLimitReachedException ex) {
+        var status = HttpStatus.BAD_REQUEST;
+        return handleExceptionInternal(service.createProblem("BALANCE_LIMIT_REACHED", ex.getMessage(), status.value()));
+    }
 }

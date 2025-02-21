@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum DiscountType {
+public enum CredentialRange {
 
     FUNCIONARIOS(1, 29999),
     ESTAGIARIOS_E_ACADEMICOS(60000, 69999),

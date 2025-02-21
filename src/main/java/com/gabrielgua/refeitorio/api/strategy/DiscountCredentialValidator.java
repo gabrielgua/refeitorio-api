@@ -9,7 +9,7 @@ public class DiscountCredentialValidator {
 
     private Boolean isClientTypeEligibleForStrategy(Client client, OrderDiscountStrategy strategy) {
         var credential = Integer.parseInt(client.getCredential());
-        var strategyType = strategy.getDiscountType();
+        var strategyType = strategy.getCredentialRange();
 
         return strategyType.applies(credential);
     }
