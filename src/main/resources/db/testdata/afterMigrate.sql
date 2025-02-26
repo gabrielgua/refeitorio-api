@@ -57,3 +57,15 @@ insert into atendimentos_products (atendimento_id, product_id) values
 (2, 1),
 (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14),
 (4, 2);
+
+insert into orders (id, number, credential, atendimento_id, final_price, discounted_price, original_price, created_at) values
+(1, "202515559707", "14928", 2, 3.65, 3.65, 7.30, "2025-02-25 18:12:02"),
+(2, "202594343248", "42877", 2, 10.50, 0, 10.5, "2025-02-25 18:12:12"),
+(3, "202594833624", "90090", 2, 4.08, 0, 4.08, "2025-02-25 18:13:56"),
+(4, "202586186626", "00234", 2, 0, 16.00, 16.00, "2025-02-25 18:12:56");
+
+insert into order_items (order_id, product_id, quantity, unit_price, total_price, weight) values
+(1, 1, 1, 16.00, 7.30, 0.456),
+(2, 1, 1, 16.00, 10.50, 0.656),
+(3, 1, 1, 16.00, 4.08, 0.255),
+(4, 1, 1, 16.00, 16.00, 1.000);
