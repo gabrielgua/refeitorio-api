@@ -1,6 +1,7 @@
 package com.gabrielgua.refeitorio.api.controller;
 
-import com.gabrielgua.refeitorio.domain.service.OrderReportService;
+import com.gabrielgua.refeitorio.domain.service.OrderReportCSVService;
+import com.gabrielgua.refeitorio.domain.service.OrderReportXLSXService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +15,16 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OrderReportController {
 
-    private final OrderReportService orderReportService;
+    private final OrderReportCSVService reportCSVService;
+    private final OrderReportXLSXService reportXLSXService;
 
     @GetMapping("/csv")
     public void generateOrderHistoryReportCSV(HttpServletResponse response) throws IOException {
-        orderReportService.generateOrderReportCSV(response);
+        reportCSVService.generateOrderReport(response);
     }
 
-    @GetMapping("/excel")
-    public void generateOrderHistoryReportEXCEL(HttpServletResponse response) throws IOException {
-        orderReportService.generateOrderReportEXCEL(response);
+    @GetMapping("/xlsx")
+    public void generateOrderHistoryReportXLSX(HttpServletResponse response) throws IOException {
+        reportXLSXService.generateOrderReport(response);
     }
 }
