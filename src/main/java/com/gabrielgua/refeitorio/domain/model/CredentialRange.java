@@ -22,6 +22,14 @@ public class CredentialRange {
     private Integer min;
     private Integer max;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
     @CreationTimestamp
     private OffsetDateTime createdAt;
+
+    public Boolean applies(String credential) {
+        var credentialInteger = Integer.parseInt(credential);
+        return credentialInteger >= min && credentialInteger <= max;
+    }
 }

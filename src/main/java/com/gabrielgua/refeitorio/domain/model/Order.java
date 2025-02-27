@@ -1,6 +1,5 @@
 package com.gabrielgua.refeitorio.domain.model;
 
-import com.gabrielgua.refeitorio.api.strategy.AtendimentoCodeValidator;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,18 +36,6 @@ public class Order {
 
     @CreationTimestamp
     private OffsetDateTime createdAt;
-
-    public void calculatePrice(BigDecimal discount) {
-        getItems().forEach(OrderItem::calculateTotalPrice);
-
-        var price = getItems().stream()
-                .map(OrderItem::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        setOriginalPrice(price);
-        setDiscountedPrice(price.multiply(discount));
-        setFinalPrice(price.subtract(getDiscountedPrice()));
-    }
 
     @PrePersist
     private void generateOrderNumber() {

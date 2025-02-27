@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Data
 @Entity
@@ -20,7 +21,11 @@ public class OrderItem {
     private BigDecimal weight;
     private Integer quantity;
     private BigDecimal unitPrice;
+
+    private BigDecimal subtotal;
+    private BigDecimal discount;
     private BigDecimal totalPrice;
+    private BigDecimal discountedPrice;
 
 
     @ManyToOne
@@ -30,6 +35,39 @@ public class OrderItem {
     private Product product;
 
     public void calculateTotalPrice() {
+        setSubtotal(getBaseCalculation());
+        setTotalPrice(getSubtotal());
+        setDiscountedPrice(BigDecimal.ZERO);
+        setDiscount(BigDecimal.ZERO);
+    }
+
+    public void calculateTotalPrice(OrderDiscountRule discountRule) {
+        var discountedPrice = BigDecimal.ZERO;
+        var baseCalculation = getBaseCalculation();
+        setSubtotal(baseCalculation);
+
+        if (discountRule.getDiscountValue() != null) {
+            discountedPrice = discountRule.getDiscountValue();
+        }
+
+        if (discountRule.getDiscountType().equals(OrderDiscountType.PERCENTAGE_VALUE)) {
+            setDiscountedPrice(getSubtotal().multiply(discountedPrice));
+            setDiscount(discountedPrice);
+        }
+        
+        if (discountRule.getDiscountType().equals(OrderDiscountType.FIXED_VALUE)) {
+            setDiscountedPrice(discountedPrice);
+            BigDecimal discount = getSubtotal().subtract(getTotalPrice());
+            BigDecimal discountPercentage = discount.divide(getSubtotal(), 2, RoundingMode.HALF_UP);
+
+            setDiscountedPrice(discountedPrice);
+            setDiscount(discountPercentage);
+        }
+
+        setTotalPrice(getSubtotal().subtract(getDiscountedPrice()));
+    }
+
+    private BigDecimal getBaseCalculation() {
         var unitPrice = getUnitPrice();
         var quantity = getQuantity();
         var weight = getWeight();
@@ -50,6 +88,6 @@ public class OrderItem {
             quantity = 1;
         }
 
-        setTotalPrice(unitPrice.multiply(new BigDecimal(quantity)).multiply(weight));
+        return unitPrice.multiply(new BigDecimal(quantity)).multiply(weight);
     }
 }
