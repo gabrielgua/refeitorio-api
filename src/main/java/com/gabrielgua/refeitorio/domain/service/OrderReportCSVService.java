@@ -51,7 +51,7 @@ public class OrderReportCSVService {
 
     private String formatCurrency(BigDecimal value) {
         var brFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
-        return brFormat.format(value);
+        return String.format("\"%s\"", brFormat.format(value));
     }
 
     private String formatDate(OffsetDateTime date) {
