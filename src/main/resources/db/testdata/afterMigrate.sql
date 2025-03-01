@@ -19,14 +19,15 @@ insert into users (email, role, password) values
 ("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6");
 
 insert into clients (credential, name, role, salary, balance, free_of_charge) values
-("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, 0, false),
-("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, 1.00, false),
-("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, 1.00, false),
-("32456", "RFCC Teste", "RFCC", 2000, 0, false),
-("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, 0, false),
-("71893", "Redidentes Teste", "Residente e Especializando", 1670, 0, false),
-("00234", "SND Produção Teste", "Nutricionista N1", 3670, 0, true),
-("90090", "Teste Credencial", "Credencial Não Compatível com Tipo", 3670, 0, false);
+("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false),
+("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, null, false),
+("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, null, false),
+("32456", "RFCC Teste", "RFCC", 2000, null, false),
+("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null, false),
+("71893", "Redidentes Teste", "Residente e Especializando", 1670, null, false),
+("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, true),
+("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false),
+("42877", "Terceiro", "Terceirizado", 2670, 3.12, false);
 
 
 insert into atendimentos (name, code, time_start, time_end, price_type, created_at) values

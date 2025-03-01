@@ -4,7 +4,7 @@ import com.gabrielgua.refeitorio.api.strategy.DiscountCredentialValidator;
 import com.gabrielgua.refeitorio.api.strategy.OrderDiscountStrategy;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.DiscountType;
+import com.gabrielgua.refeitorio.domain.model.CredentialRange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class EstagiariosAndAcademicosDiscount implements OrderDiscountStrategy {
     }
 
     @Override
-    public DiscountType getDiscountType() {
-        return DiscountType.ESTAGIARIOS_E_ACADEMICOS;
+    public CredentialRange getCredentialRange() {
+        return CredentialRange.ESTAGIARIOS_E_ACADEMICOS;
     }
 }
