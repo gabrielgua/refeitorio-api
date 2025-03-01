@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.model.Order;
 import com.gabrielgua.refeitorio.domain.model.OrderItem;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
@@ -18,15 +19,16 @@ public class OrderService {
     private final ClientService clientService;
     private final FindClientService findClientService;
     private final AtendimentoService atendimentoService;
+    private final ClientBalanceService clientBalanceService;
     private final OrderDiscountStrategyService discountStrategyService;
     private final OrderDiscountRuleService discountRuleService;
-    private final CredentialRangeService credentialRangeService;
 
     @Transactional
     public Order save(Order order) {
         validateOrder(order);
         validateItems(order);
         calculateTotalPrice(order);
+        validateClientBalance(order);
         return repository.save(order);
     }
 
@@ -70,5 +72,19 @@ public class OrderService {
         order.setOriginalPrice(subtotal);
         order.setDiscountedPrice(discountedPrice);
         order.setFinalPrice(subtotal.subtract(discountedPrice));
+    }
+
+    public void validateClientBalance(Order order) {
+        var client = findClientService.findByCredential(order.getClient().getCredential());
+        if (client.getBalance() == null) { // if the client doesn't have to use balance for orders
+            return;
+        }
+
+        var balanceNew = client.getBalance().subtract(order.getFinalPrice());
+        if (balanceNew.compareTo(BigDecimal.valueOf(-100)) < 0) {
+            throw new ClientBalanceLimitReachedException();
+        }
+
+        clientBalanceService.withdraw(client, order.getFinalPrice());
     }
 }

@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.api.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.BusinessException;
 import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
 import com.gabrielgua.refeitorio.domain.model.OrderDiscountStrategy;

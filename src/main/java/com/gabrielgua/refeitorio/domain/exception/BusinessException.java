@@ -1,4 +1,4 @@
-package com.gabrielgua.refeitorio.api.exception;
+package com.gabrielgua.refeitorio.domain.exception;
 
 public class BusinessException extends RuntimeException{
     public BusinessException(String message) {

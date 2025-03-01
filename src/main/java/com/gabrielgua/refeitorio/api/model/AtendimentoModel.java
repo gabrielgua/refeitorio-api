@@ -16,7 +16,6 @@ public class AtendimentoModel {
 
     private Long id;
     private String name;
-    private String code;
     private PriceType priceType;
     private LocalTime timeStart;
     private LocalTime timeEnd;
