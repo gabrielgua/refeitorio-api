@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,12 @@ public class OrderService {
     private final ClientBalanceService clientBalanceService;
     private final OrderDiscountStrategyService discountStrategyService;
     private final OrderDiscountRuleService discountRuleService;
+
+    @Transactional(readOnly = true)
+    public List<Order> findAll() {
+        return repository.findAll();
+    }
+
 
     @Transactional
     public Order save(Order order) {
@@ -87,4 +94,5 @@ public class OrderService {
 
         clientBalanceService.withdraw(client, order.getFinalPrice());
     }
+
 }
