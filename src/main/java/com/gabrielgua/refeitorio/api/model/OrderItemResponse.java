@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,11 @@ public class OrderItemResponse {
 
     private Long id;
     private Integer quantity;
+
     private BigDecimal unitPrice;
+    private BigDecimal subtotal;
+    private BigDecimal discount;
+    private BigDecimal discountedPrice;
     private BigDecimal totalPrice;
     private ProductResponse product;
 

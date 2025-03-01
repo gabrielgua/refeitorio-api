@@ -8,6 +8,8 @@ import com.gabrielgua.refeitorio.domain.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Component
@@ -44,8 +46,11 @@ public class OrderItemMapper {
                 .id(orderItem.getId())
                 .product(productMapper.toOrderItemResponse(orderItem.getProduct()))
                 .quantity(orderItem.getQuantity())
-                .totalPrice(orderItem.getTotalPrice())
-                .unitPrice(orderItem.getUnitPrice())
+                .totalPrice(orderItem.getSubtotal().setScale(2, RoundingMode.HALF_UP))
+                .subtotal(orderItem.getSubtotal().setScale(2, RoundingMode.HALF_UP))
+                .discount(orderItem.getDiscount().multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.HALF_UP))
+                .discountedPrice(orderItem.getDiscountedPrice().setScale(2, RoundingMode.HALF_UP))
+                .unitPrice(orderItem.getUnitPrice().setScale(2, RoundingMode.HALF_UP))
                 .build();
     }
 }

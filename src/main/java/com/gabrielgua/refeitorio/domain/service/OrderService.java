@@ -1,9 +1,8 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.api.exception.BusinessException;
-import com.gabrielgua.refeitorio.api.exception.ClientBalanceLimitReachedException;
-import com.gabrielgua.refeitorio.domain.model.Client;
+import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.model.Order;
+import com.gabrielgua.refeitorio.domain.model.OrderItem;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,15 +20,14 @@ public class OrderService {
     private final FindClientService findClientService;
     private final AtendimentoService atendimentoService;
     private final ClientBalanceService clientBalanceService;
+    private final OrderDiscountStrategyService discountStrategyService;
+    private final OrderDiscountRuleService discountRuleService;
 
     @Transactional
     public Order save(Order order) {
         validateOrder(order);
         validateItems(order);
-
-        var discount = clientService.getDiscount(order.getAtendimento(), order.getClient());
-        order.calculatePrice(discount);
-
+        calculateTotalPrice(order);
         validateClientBalance(order);
         return repository.save(order);
     }
@@ -50,6 +48,30 @@ public class OrderService {
 
         order.setClient(client);
         order.setAtendimento(atendimento);
+    }
+
+    public void calculateTotalPrice(Order order) {
+        var client = clientService.findByCredential(order.getClient().getCredential());
+        var discountStrategy = discountStrategyService.findByClient(client);
+
+        var orderItems = order.getItems();
+        //finds the rule for calculating the price or calculates it without a rule - 0% discount
+        orderItems.forEach(item -> {
+            discountRuleService.findByDiscountStrategyAndProduct(discountStrategy, item.getProduct())
+                    .ifPresentOrElse(item::calculateTotalPrice, item::calculateTotalPrice);
+        });
+
+        var subtotal = orderItems.stream()
+                .map(OrderItem::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        var discountedPrice = orderItems.stream()
+                .map(OrderItem::getDiscountedPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        order.setOriginalPrice(subtotal);
+        order.setDiscountedPrice(discountedPrice);
+        order.setFinalPrice(subtotal.subtract(discountedPrice));
     }
 
     public void validateClientBalance(Order order) {

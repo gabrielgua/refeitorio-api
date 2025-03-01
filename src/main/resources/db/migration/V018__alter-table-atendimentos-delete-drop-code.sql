@@ -1,0 +1,1 @@
+alter table atendimentos drop column code;

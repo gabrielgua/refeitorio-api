@@ -1,13 +1,13 @@
 package com.gabrielgua.refeitorio.api.exception;
 
+import com.gabrielgua.refeitorio.domain.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.time.OffsetDateTime;
 
 @ControllerAdvice
 @RequiredArgsConstructor

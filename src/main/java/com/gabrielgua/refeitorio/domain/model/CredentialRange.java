@@ -1,25 +1,35 @@
 package com.gabrielgua.refeitorio.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Getter
-@AllArgsConstructor
-public enum CredentialRange {
+import java.time.OffsetDateTime;
 
-    FUNCIONARIOS(1, 29999),
-    ESTAGIARIOS_E_ACADEMICOS(60000, 69999),
-    RESIDENTES(70000, 79999),
-    CORPO_CLINICO(50000, 59999),
-    RFCC(30000, 39999),
-    TERCEIROS(40000, 49999),
-    TERCEIRIZADO(90000, 92999);
+@Data
+@Entity
+@Table(name = "credential_ranges")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class CredentialRange {
 
-    private final Integer min;
-    private final Integer max;
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Boolean applies(Integer credential) {
-        return credential >= this.min && credential <= this.max;
+    private String name;
+    private Integer min;
+    private Integer max;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
+    @CreationTimestamp
+    private OffsetDateTime createdAt;
+
+    public Boolean applies(String credential) {
+        var credentialInteger = Integer.parseInt(credential);
+        return credentialInteger >= min && credentialInteger <= max;
     }
-
 }

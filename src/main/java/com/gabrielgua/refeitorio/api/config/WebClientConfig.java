@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.api.config;
 
-import com.gabrielgua.refeitorio.api.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.BusinessException;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;

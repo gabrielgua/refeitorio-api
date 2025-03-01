@@ -1,18 +1,16 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.api.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.BusinessException;
 import com.gabrielgua.refeitorio.api.mapper.ClientMapper;
 import com.gabrielgua.refeitorio.api.model.ConsultClientResponse;
 import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 import reactor.core.publisher.Mono;
 
 @Service

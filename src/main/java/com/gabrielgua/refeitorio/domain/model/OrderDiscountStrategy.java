@@ -5,16 +5,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalTime;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "atendimentos")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Atendimento {
+@Table(name = "order_discount_strategies")
+public class OrderDiscountStrategy {
 
     @Id
     @EqualsAndHashCode.Include
@@ -23,18 +23,20 @@ public class Atendimento {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "atendimentos_products",
-            joinColumns = @JoinColumn(name = "atendimento_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    //private Store store;
 
-    private LocalTime timeStart;
-    private LocalTime timeEnd;
+    @ManyToOne
+    private CredentialRange credentialRange;
+    private BigDecimal salaryMin;
+    private BigDecimal salaryMax;
 
-    @Enumerated(EnumType.STRING)
-    private PriceType priceType;
+    @OneToMany
+    private Set<OrderDiscountRule> discountRules = new HashSet<>();
 
     @CreationTimestamp
     private OffsetDateTime createdAt;
+
+    public Boolean salaryApplies(BigDecimal salary) {
+        return salaryMax.compareTo(salary) >= 0 && salaryMin.compareTo(salary) <= 0;
+    }
 }

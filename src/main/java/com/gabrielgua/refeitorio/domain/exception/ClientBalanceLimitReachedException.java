@@ -1,4 +1,4 @@
-package com.gabrielgua.refeitorio.api.exception;
+package com.gabrielgua.refeitorio.domain.exception;
 
 public class ClientBalanceLimitReachedException extends BusinessException {
     public ClientBalanceLimitReachedException() {
