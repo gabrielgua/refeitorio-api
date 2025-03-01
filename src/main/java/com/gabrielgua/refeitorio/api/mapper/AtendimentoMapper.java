@@ -21,7 +21,6 @@ public class AtendimentoMapper {
         return AtendimentoModel.builder()
                 .id(atendimento.getId())
                 .name(atendimento.getName())
-                .code(atendimento.getCode())
                 .priceType(atendimento.getPriceType())
                 .timeStart(atendimento.getTimeStart())
                 .timeEnd(atendimento.getTimeEnd())

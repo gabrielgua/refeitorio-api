@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.api.exception.AtendimentoNotFound;
+import com.gabrielgua.refeitorio.domain.exception.AtendimentoNotFound;
 import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.repository.AtendimentoRepository;

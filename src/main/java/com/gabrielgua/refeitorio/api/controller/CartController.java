@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/cart")
 public class CartController {
 
-    private final UserService userService;
     private final ClientService clientService;
     private final OrderService orderService;
     private final CartMapper cartMapper;
@@ -32,10 +31,8 @@ public class CartController {
         orderService.validateOrder(order);
         orderService.validateItems(order);
 
-        var discount = clientService.getDiscount(order.getAtendimento(), order.getClient());
+        orderService.calculateTotalPrice(order);
 
-        order.calculatePrice(discount);
-
-        return cartMapper.toResponse(order, discount);
+        return cartMapper.toResponse(order);
     }
 }

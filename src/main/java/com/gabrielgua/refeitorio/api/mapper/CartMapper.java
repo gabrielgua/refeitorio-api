@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Component
@@ -15,13 +16,20 @@ import java.util.List;
 public class CartMapper {
 
     private final OrderItemMapper orderItemMapper;
-    public CartResponse toResponse(Order order, BigDecimal discount) {
+    public CartResponse toResponse(Order order) {
         return CartResponse.builder()
                 .items(orderItemMapper.toCollectionModel(order.getItems()))
-                .finalPrice(order.getFinalPrice())
-                .originalPrice(order.getOriginalPrice())
-                .discountedPrice(order.getDiscountedPrice())
-                .discount(discount)
+                .finalPrice(order.getFinalPrice().setScale(2, RoundingMode.HALF_UP))
+                .originalPrice(order.getOriginalPrice().setScale(2, RoundingMode.HALF_UP))
+                .discountedPrice(order.getDiscountedPrice().setScale(2, RoundingMode.HALF_UP))
+                .discount(getTotalDiscountPercentage(order))
                 .build();
+    }
+
+    private BigDecimal getTotalDiscountPercentage(Order order) {
+        var discount = order.getOriginalPrice().subtract(order.getFinalPrice());
+        var discountPercentage = discount.divide(order.getOriginalPrice(), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+
+        return discountPercentage.setScale(0, RoundingMode.HALF_UP);
     }
 }
