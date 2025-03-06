@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,21 +18,17 @@ public class OrderDiscountStrategyService {
     private final OrderDiscountStrategyRepository repository;
     private final CredentialRangeService credentialRangeService;
 
-    public OrderDiscountStrategy findByClient(Client client) {
+    public Optional<OrderDiscountStrategy> findByClient(Client client) {
         var credentialRange = credentialRangeService.findByCredential(client.getCredential());
         var discountStrategies = findByCredentialRange(credentialRange);
-        if (discountStrategies.isEmpty()) {
-            throw new BusinessException("Couldn't find discount strategy for this client credential: " + client.getCredential());
-        }
 
         if (discountStrategies.size() > 1) {
             return discountStrategies.stream()
                     .filter(strategy -> strategy.salaryApplies(client.getSalary()))
-                    .findFirst()
-                    .orElseThrow(() -> new BusinessException("Couldn't find discount strategy for this client's salary"));
+                    .findFirst();
         }
 
-        return discountStrategies.getFirst();
+        return discountStrategies.stream().findFirst();
     }
 
     public List<OrderDiscountStrategy> findByCredentialRange(CredentialRange range) {

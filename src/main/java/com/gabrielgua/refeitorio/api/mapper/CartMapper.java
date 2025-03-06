@@ -28,6 +28,9 @@ public class CartMapper {
 
     private BigDecimal getTotalDiscountPercentage(Order order) {
         var discount = order.getOriginalPrice().subtract(order.getFinalPrice());
+        if  (discount.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
         var discountPercentage = discount.divide(order.getOriginalPrice(), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
 
         return discountPercentage.setScale(0, RoundingMode.HALF_UP);

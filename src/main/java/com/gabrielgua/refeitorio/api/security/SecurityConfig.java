@@ -66,6 +66,8 @@ public class SecurityConfig {
         config.setAllowedMethods(List.of("*"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedOrigins(List.of("*"));
+        //exposes the response headers on the file download endpoints
+        config.addExposedHeader("Content-Disposition");
         return config;
     }
 
