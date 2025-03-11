@@ -2,8 +2,10 @@ package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.BusinessException;
 import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
+import com.gabrielgua.refeitorio.domain.filter.OrderFilter;
 import com.gabrielgua.refeitorio.domain.model.*;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
+import com.gabrielgua.refeitorio.infra.spec.OrderSpecs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +28,10 @@ public class OrderService {
     private final OrderDiscountRuleService discountRuleService;
 
     @Transactional(readOnly = true)
-    public List<Order> findAll() {
-        return repository.findAll();
+    public List<Order> findAll(OrderFilter filter) {
+        return repository.findAll(OrderSpecs.filtering(filter));
     }
-
-
+    
     @Transactional
     public Order save(Order order) {
         validateOrder(order);

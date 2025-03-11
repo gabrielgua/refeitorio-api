@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.filter.OrderFilter;
 import com.gabrielgua.refeitorio.domain.model.Order;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class OrderReportXLSXService {
     private final OrderService orderService;
     private static final String[] headers = {"Id", "Número", "Matrícula", "Atendimento", "Subtotal", "Preço descontado", "Preço final", "Data"};
 
-    public void generateOrderReport(HttpServletResponse response) throws IOException {
+    public void generateOrderReport(HttpServletResponse response, OrderFilter filter) throws IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=" + getFileName());
 
@@ -37,7 +38,7 @@ public class OrderReportXLSXService {
             createTitleRow(sheet, titleStyle);
             createHeaderRow(sheet, headerStyle);
 
-            List<Order> orders = orderService.findAll();
+            List<Order> orders = orderService.findAll(filter);
             populateDataRows(sheet, orders, dateStyle, currencyStyle);
 
             autoSizeColumns(sheet);

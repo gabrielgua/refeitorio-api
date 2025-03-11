@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.api.controller;
 
+import com.gabrielgua.refeitorio.domain.filter.OrderFilter;
 import com.gabrielgua.refeitorio.domain.service.OrderReportCSVService;
 import com.gabrielgua.refeitorio.domain.service.OrderReportXLSXService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,12 +20,12 @@ public class OrderReportController {
     private final OrderReportXLSXService reportXLSXService;
 
     @GetMapping("/csv")
-    public void generateOrderHistoryReportCSV(HttpServletResponse response) throws IOException {
-        reportCSVService.generateOrderReport(response);
+    public void generateOrderHistoryReportCSV(HttpServletResponse response, OrderFilter filter) throws IOException {
+        reportCSVService.generateOrderReport(response, filter);
     }
 
     @GetMapping("/xlsx")
-    public void generateOrderHistoryReportXLSX(HttpServletResponse response) throws IOException {
-        reportXLSXService.generateOrderReport(response);
+    public void generateOrderHistoryReportXLSX(HttpServletResponse response, OrderFilter filter) throws IOException {
+        reportXLSXService.generateOrderReport(response, filter);
     }
 }

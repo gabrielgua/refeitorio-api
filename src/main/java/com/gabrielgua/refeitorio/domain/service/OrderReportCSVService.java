@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.filter.OrderFilter;
 import com.gabrielgua.refeitorio.domain.model.Order;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class OrderReportCSVService {
     private final OrderService orderService;
     private static final String[] headers = {"Id", "Número", "Matrícula", "Atendimento", "Subtotal", "Preço descontado", "Preço final", "Data"};
 
-    public void generateOrderReport(HttpServletResponse response) throws IOException {
+    public void generateOrderReport(HttpServletResponse response, OrderFilter filter) throws IOException {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=" + getFileName());
 
@@ -37,7 +38,7 @@ public class OrderReportCSVService {
 
         writer.println(String.join(",", headers));
 
-        var orders = orderService.findAll();
+        var orders = orderService.findAll(filter);
         orders.forEach(order -> {
             writer.println(order.getId() + "," + order.getNumber() + "," + order.getClient().getCredential() + ","
                     + order.getAtendimento().getName() + "," + formatCurrency(order.getOriginalPrice()) + "," + formatCurrency(order.getDiscountedPrice())
