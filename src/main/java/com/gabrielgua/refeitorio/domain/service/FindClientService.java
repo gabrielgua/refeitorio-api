@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FindClientService {
@@ -23,6 +25,14 @@ public class FindClientService {
     private final ClientMapper mapper;
     private final ClientService clientService;
     private final WebClient webClient;
+
+    public List<Client> findAll() {
+        return repository.findAll();
+    }
+
+    public List<Client> searchForClient(String term) {
+        return repository.findByNameContainingOrCredentialContaining(term, term);
+    }
 
     @Transactional(noRollbackFor = BusinessException.class)
     public Client findByCredential(String credential) {
