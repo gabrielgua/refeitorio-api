@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @EqualsAndHashCode.Include
-    private Long Id;
+    private Long id;
     private String email;
     private String password;
 

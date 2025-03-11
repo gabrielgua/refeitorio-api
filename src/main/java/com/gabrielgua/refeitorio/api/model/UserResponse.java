@@ -14,9 +14,6 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
 
-    private String credential;
     private String email;
-
-    @Enumerated(EnumType.STRING)
     private UserRole role;
 }

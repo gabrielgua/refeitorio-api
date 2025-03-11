@@ -45,9 +45,7 @@ public class AuthService {
 
     private Map<String, Object> defaultClaims(User user) {
         var claims = new HashMap<String, Object>();
-
         claims.put("user_id", user.getId());
-
         return claims;
     }
 

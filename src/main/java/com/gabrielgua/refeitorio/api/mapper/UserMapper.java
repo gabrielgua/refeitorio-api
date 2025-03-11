@@ -13,17 +13,4 @@ public class UserMapper {
                 .role(user.getRole())
                 .build();
     }
-
-    /*public UserModel toAtendimentoResponse(User user) {
-        var balance = user.getBalance();
-        if (balance == null) {
-            balance = BigDecimal.ZERO;
-        }
-
-        return UserModel.builder()
-                .credential(user.getCredential())
-                .balance(balance)
-                .name(user.getName())
-                .build();
-    }*/
 }
