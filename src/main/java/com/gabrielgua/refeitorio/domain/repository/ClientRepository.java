@@ -13,5 +13,4 @@ public interface ClientRepository extends JpaRepository<Client, String> {
     Optional<Client> findByCredential(String credential);
 
     List<Client> findByNameContainingOrCredentialContaining(String name, String credential);
-
 }

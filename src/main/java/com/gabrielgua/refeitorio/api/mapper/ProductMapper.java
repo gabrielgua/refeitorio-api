@@ -4,6 +4,8 @@ import com.gabrielgua.refeitorio.api.model.ProductResponse;
 import com.gabrielgua.refeitorio.domain.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductMapper {
 
@@ -16,6 +18,12 @@ public class ProductMapper {
                 .allowMultiple(product.getAllowMultiple())
                 .priceType(product.getPriceType())
                 .build();
+    }
+
+    public List<ProductResponse> toCollectionResponse(List<Product> products) {
+        return products.stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     public ProductResponse toOrderItemResponse(Product product) {
