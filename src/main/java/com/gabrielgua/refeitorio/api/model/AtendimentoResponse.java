@@ -12,11 +12,10 @@ import java.time.LocalTime;
 @Setter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AtendimentoModel {
+public class AtendimentoResponse {
 
     private Long id;
     private String name;
-    private PriceType priceType;
     private LocalTime timeStart;
     private LocalTime timeEnd;
 }

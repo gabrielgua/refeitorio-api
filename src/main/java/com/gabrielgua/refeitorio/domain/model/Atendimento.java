@@ -32,9 +32,6 @@ public class Atendimento {
     private LocalTime timeStart;
     private LocalTime timeEnd;
 
-    @Enumerated(EnumType.STRING)
-    private PriceType priceType;
-
     @CreationTimestamp
     private OffsetDateTime createdAt;
 }

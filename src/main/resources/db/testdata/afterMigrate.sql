@@ -46,11 +46,11 @@ insert into clients (credential, name, role, salary, balance, free_of_charge) va
 
 
 
-insert into atendimentos (name, time_start, time_end, price_type, created_at) values
-("Café da Manhã", "06:00:00", "12:00:00", "PRICE_PER_UNIT", utc_timestamp),
-("Almoço", "12:00:00", "16:00:00", "PRICE_PER_KG", utc_timestamp),
-("Lanche da Tarde", "16:00:00", "19:00:00", "PRICE_PER_UNIT", utc_timestamp),
-("Jantar", "19:00:00", "23:59:00", "PRICE_PER_KG", utc_timestamp);
+insert into atendimentos (name, time_start, time_end, created_at) values
+("Café da Manhã", "06:00:00", "12:00:00",  utc_timestamp),
+("Almoço", "12:00:00", "16:00:00",  utc_timestamp),
+("Lanche da Tarde", "16:00:00", "19:00:00", utc_timestamp),
+("Jantar", "19:00:00", "23:59:00", utc_timestamp);
 
 insert into products (code, name, price, price_type, allow_multiple) values
 ("7891234567886", "Almoço", 16, "PRICE_PER_KG", false),

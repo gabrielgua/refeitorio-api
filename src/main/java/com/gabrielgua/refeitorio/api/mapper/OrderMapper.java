@@ -43,7 +43,7 @@ public class OrderMapper {
                 .name(order.getClient().getName())
                 .build();
 
-        var atendimento = AtendimentoModel.builder()
+        var atendimento = AtendimentoResponse.builder()
                 .id(order.getAtendimento().getId())
                 .name(order.getAtendimento().getName())
                 .build();
