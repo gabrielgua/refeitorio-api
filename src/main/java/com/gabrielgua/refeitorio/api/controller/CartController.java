@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/cart")
 public class CartController {
 
-    private final ClientService clientService;
     private final OrderService orderService;
     private final CartMapper cartMapper;
     private final OrderMapper orderMapper;

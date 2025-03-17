@@ -31,6 +31,10 @@ public class Order {
     @JoinColumn(name = "atendimento_id")
     private Atendimento atendimento;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 

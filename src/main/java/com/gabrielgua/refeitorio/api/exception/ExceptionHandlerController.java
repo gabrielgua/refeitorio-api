@@ -52,6 +52,11 @@ public class ExceptionHandlerController {
         return handleNotFound("ATENDIMENTO_NOT_FOUND", ex.getMessage());
     }
 
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<?> handleStoreNotFound(StoreNotFoundException ex) {
+        return handleNotFound("STORE_NOT_FOUND", ex.getMessage());
+    }
+
     @ExceptionHandler(ClientBalanceLimitReachedException.class)
     public ResponseEntity<?> handleClientBalanceLimitReached(ClientBalanceLimitReachedException ex) {
         var status = HttpStatus.BAD_REQUEST;

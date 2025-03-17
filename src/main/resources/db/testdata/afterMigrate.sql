@@ -3,6 +3,7 @@ set foreign_key_checks = 0;
 delete from users;
 delete from clients;
 delete from orders;
+delete from stores;
 delete from products;
 delete from order_items;
 delete from atendimentos;
@@ -14,6 +15,7 @@ delete from credential_ranges;
 set foreign_key_checks = 1;
 
 alter table users auto_increment = 1;
+alter table stores auto_increment =1;
 alter table atendimentos auto_increment = 1;
 alter table order_items auto_increment = 1;
 alter table products auto_increment = 1;
@@ -35,6 +37,11 @@ insert into clients (credential, name, role, salary, balance, free_of_charge) va
 ("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, true),
 ("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false),
 ("42877", "Terceiro", "Terceirizado", 2670, 3.12, false);
+
+insert into stores (id, name) values
+(1, 'Erasto Gaertner'),
+(2, 'Hóspice'),
+(3, 'Irati');
 
 
 insert into atendimentos (name, time_start, time_end, price_type, created_at) values
