@@ -20,4 +20,7 @@ public class CartRequest {
 
     @NotNull
     private String credential;
+
+    @NotNull
+    private Long atendimentoId;
 }

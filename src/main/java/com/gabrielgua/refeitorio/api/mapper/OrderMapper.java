@@ -20,7 +20,11 @@ public class OrderMapper {
         var client = new Client();
         client.setCredential(request.getCredential());
 
+        var store = new Store();
+        store.setId(request.getStoreId());
+
         var order = new Order();
+        order.setStore(store);
         order.setClient(client);
         order.setAtendimento(atendimento);
         order.setItems(orderItemMapper.toOrderItemEntityCollection(request.getItems()));

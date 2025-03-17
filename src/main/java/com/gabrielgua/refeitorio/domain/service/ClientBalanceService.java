@@ -19,23 +19,22 @@ public class ClientBalanceService {
 
     @Transactional
     public void deposit(Client client, BigDecimal amount) {
-        client.setBalance(client.getBalance().add(amount));
-        clientRepository.save(client);
+        if (client.useBalance()) {
+            client.setBalance(client.getBalance().add(amount));
+            clientRepository.save(client);
+        }
     }
 
     @Transactional
     public void withdraw(Client client, BigDecimal amount) {
-        validateBalanceLimit(client, amount);
-        client.setBalance(client.getBalance().subtract(amount));
-        clientRepository.save(client);
+        if (client.useBalance()) {
+            validateBalanceLimit(client, amount);
+            client.setBalance(client.getBalance().subtract(amount));
+            clientRepository.save(client);
+        }
     }
 
-    @Transactional(readOnly = true)
-    public void validateBalanceLimit(Client client, BigDecimal amount) {
-        if (client.getBalance() == null) { // if the client doesn't have to use balance for orders
-            return;
-        }
-
+    private void validateBalanceLimit(Client client, BigDecimal amount) {
         var balanceNew = client.getBalance().subtract(amount);
         if (balanceNew.compareTo(NEGATIVE_BALANCE_LIMIT) < 0) {
             throw new ClientBalanceLimitReachedException();

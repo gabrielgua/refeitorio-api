@@ -2,14 +2,14 @@ package com.gabrielgua.refeitorio.api.mapper;
 
 import com.gabrielgua.refeitorio.api.model.CartRequest;
 import com.gabrielgua.refeitorio.api.model.CartResponse;
+import com.gabrielgua.refeitorio.domain.model.Atendimento;
+import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.Order;
-import com.gabrielgua.refeitorio.domain.model.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

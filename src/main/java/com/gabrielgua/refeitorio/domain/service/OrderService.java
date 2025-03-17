@@ -21,7 +21,7 @@ public class OrderService {
     private final ProductService productService;
     private final StoreService storeService;
     private final ClientService clientService;
-    private final FindClientService findClientService;
+    private final FetchClientService fetchClientService;
     private final AtendimentoService atendimentoService;
     private final ClientBalanceService clientBalanceService;
     private final OrderDiscountStrategyService discountStrategyService;
@@ -62,7 +62,7 @@ public class OrderService {
 
     public void validateOrder(Order order) {
         var store =  storeService.findById(order.getStore().getId());
-        var client = findClientService.findByCredential(order.getClient().getCredential());
+        var client = fetchClientService.findByCredential(order.getClient().getCredential());
         var atendimento = atendimentoService.findById(order.getAtendimento().getId());
 
         order.setStore(store);
@@ -102,7 +102,7 @@ public class OrderService {
     }
 
     public void withdrawBalance(Order order) {
-        var client = findClientService.findByCredential(order.getClient().getCredential());
+        var client = fetchClientService.findByCredential(order.getClient().getCredential());
         clientBalanceService.withdraw(client, order.getFinalPrice());
     }
 
