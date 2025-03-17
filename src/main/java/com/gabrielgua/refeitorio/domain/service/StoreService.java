@@ -7,11 +7,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StoreService {
 
     private final StoreRepository storeRepository;
+
+    @Transactional(readOnly = true)
+    public List<Store>  findAll() {
+        return storeRepository.findAll();
+    }
 
     @Transactional(readOnly = true)
     public Store findById(Long id) {
