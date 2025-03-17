@@ -1,8 +1,6 @@
 package com.gabrielgua.refeitorio.api.exception;
 
-import com.gabrielgua.refeitorio.domain.exception.BusinessException;
-import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
-import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
+import com.gabrielgua.refeitorio.domain.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +20,11 @@ public class ExceptionHandlerController {
                 .body(problem);
     }
 
+    public ResponseEntity<?> handleNotFound(String error, String message) {
+        var status = HttpStatus.NOT_FOUND;
+        return handleExceptionInternal(service.createProblem(error, message, status.value()));
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusiness(BusinessException ex) {
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -31,7 +34,22 @@ public class ExceptionHandlerController {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
         var status = HttpStatus.NOT_FOUND;
-        return handleExceptionInternal(service.createProblem(status.name(), ex.getMessage(), status.value()));
+        return handleNotFound(status.name(), ex.getMessage());
+    }
+
+    @ExceptionHandler(CredentialRangeNotFound.class)
+    public ResponseEntity<?> handleCredentialRangeNotFound(CredentialRangeNotFound ex) {
+        return handleNotFound("CREDENTIAL_RANGE_NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFound(UserNotFoundException ex) {
+        return handleNotFound("USER_NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(AtendimentoNotFound.class)
+    public ResponseEntity<?> handleAtendimentoNotFound(AtendimentoNotFound ex) {
+        return handleNotFound("ATENDIMENTO_NOT_FOUND", ex.getMessage());
     }
 
     @ExceptionHandler(ClientBalanceLimitReachedException.class)

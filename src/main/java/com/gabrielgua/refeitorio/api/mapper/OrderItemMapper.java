@@ -51,6 +51,7 @@ public class OrderItemMapper {
                 .discount(orderItem.getDiscount().multiply(BigDecimal.valueOf(100)).setScale(0, RoundingMode.HALF_UP))
                 .discountedPrice(orderItem.getDiscountedPrice().setScale(2, RoundingMode.HALF_UP))
                 .unitPrice(orderItem.getUnitPrice().setScale(2, RoundingMode.HALF_UP))
+                .weight(orderItem.getWeight())
                 .build();
     }
 }

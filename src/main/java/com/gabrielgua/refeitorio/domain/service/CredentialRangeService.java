@@ -1,6 +1,7 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.CredentialRangeNotFound;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
 import com.gabrielgua.refeitorio.domain.repository.CredentialRangeRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,6 @@ public class CredentialRangeService {
     @Transactional(readOnly = true)
     public CredentialRange findByCredential(String credential) {
         return credentialRangeRepository.findByCredential(Integer.parseInt(credential))
-                .orElseThrow(() -> new BusinessException("CredentialRange not found for credential: " + credential));
+                .orElseThrow(() -> new CredentialRangeNotFound("CredentialRange not found for credential: " + credential));
     }
 }

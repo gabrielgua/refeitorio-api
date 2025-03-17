@@ -22,6 +22,7 @@ public class OrderItemResponse {
     private BigDecimal discount;
     private BigDecimal discountedPrice;
     private BigDecimal totalPrice;
+    private BigDecimal weight;
     private ProductResponse product;
 
 }
