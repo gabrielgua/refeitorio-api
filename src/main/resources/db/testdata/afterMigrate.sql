@@ -24,8 +24,13 @@ alter table credential_ranges auto_increment = 1;
 alter table order_discount_rules auto_increment = 1;
 alter table order_discount_strategies auto_increment = 1;
 
-insert into users (email, role, password) values
-("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6");
+insert into stores (id, name) values
+(1, 'Erasto Gaertner'),
+(2, 'Hóspice'),
+(3, 'Irati');
+
+insert into users (email, role, password, store_id) values
+("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6", 1);
 
 insert into clients (credential, name, role, salary, balance, free_of_charge) values
 ("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false),
@@ -38,10 +43,7 @@ insert into clients (credential, name, role, salary, balance, free_of_charge) va
 ("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false),
 ("42877", "Terceiro", "Terceirizado", 2670, 3.12, false);
 
-insert into stores (id, name) values
-(1, 'Erasto Gaertner'),
-(2, 'Hóspice'),
-(3, 'Irati');
+
 
 
 insert into atendimentos (name, time_start, time_end, price_type, created_at) values
