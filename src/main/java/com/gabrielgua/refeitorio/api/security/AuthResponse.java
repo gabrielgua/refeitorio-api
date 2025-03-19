@@ -10,8 +10,5 @@ import lombok.Setter;
 @Builder
 public class AuthResponse {
     private Long id;
-    private UserRole role;
-    private String store;
-    private String email;
     private String token;
 }

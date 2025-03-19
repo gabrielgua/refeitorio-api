@@ -47,8 +47,8 @@ public class ExceptionHandlerController {
         return handleNotFound("USER_NOT_FOUND", ex.getMessage());
     }
 
-    @ExceptionHandler(AtendimentoNotFound.class)
-    public ResponseEntity<?> handleAtendimentoNotFound(AtendimentoNotFound ex) {
+    @ExceptionHandler(AtendimentoNotFoundException.class)
+    public ResponseEntity<?> handleAtendimentoNotFound(AtendimentoNotFoundException ex) {
         return handleNotFound("ATENDIMENTO_NOT_FOUND", ex.getMessage());
     }
 

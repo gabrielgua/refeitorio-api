@@ -3,6 +3,7 @@ package com.gabrielgua.refeitorio.api.security;
 import com.gabrielgua.refeitorio.domain.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,12 @@ public class TokenService {
     }
 
     public boolean isTokenValid(String token, String subject) {
-        final String email = getTokenSubject(token);
-        return email.equals(subject) && getTokenExpiration(token).after(new Date());
+        try {
+            final String email = getTokenSubject(token);
+            return email.equals(subject) && getTokenExpiration(token).after(new Date());
+        } catch (SignatureException e) {
+            return false;
+        }
     }
 
     public String getTokenSubject(String token) {

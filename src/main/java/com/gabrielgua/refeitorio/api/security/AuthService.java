@@ -21,9 +21,6 @@ public class AuthService {
     private AuthResponse toModel (User user, String token) {
         return AuthResponse.builder()
                 .id(user.getId())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .store(user.getStore().getName())
                 .token(token)
                 .build();
     }
