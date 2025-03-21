@@ -91,14 +91,18 @@ public class OrderService {
     }
 
     private void applyDiscounts(Order order, Optional<OrderDiscountStrategy> strategy) {
+        if (order.getClient().getFreeOfCharge()) {
+            order.getItems().forEach(OrderItem::calculateTotalPriceFreeOfCharge);
+            return;
+        }
+
         //if the strategy is not present the discount applied is 0%.
         //if the strategy is present but the product does not have a strategyRule that matches the strategy, the discount applied is 0%
         //if the strategy is present and the strategyRule is present the discount is applied based on its value.
-
         strategy.ifPresentOrElse(orderDiscountStrategy -> order.getItems().forEach(item -> {
             discountRuleService.findByDiscountStrategyAndProduct(orderDiscountStrategy, item.getProduct())
-                    .ifPresentOrElse(item::calculateTotalPrice, item::calculateTotalPrice);
-        }), () -> order.getItems().forEach(OrderItem::calculateTotalPrice));
+                    .ifPresentOrElse(item::calculateTotalPriceByRule, item::calculateTotalPriceZeroDiscount);
+        }), () -> order.getItems().forEach(OrderItem::calculateTotalPriceZeroDiscount));
     }
 
     public void withdrawBalance(Order order) {

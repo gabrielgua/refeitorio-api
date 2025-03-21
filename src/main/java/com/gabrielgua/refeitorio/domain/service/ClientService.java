@@ -26,7 +26,6 @@ public class ClientService {
 
     @Transactional
     public Client save(Client client){
-
         if (client.getFreeOfCharge() == null) {
             client.setFreeOfCharge(false);
         }
