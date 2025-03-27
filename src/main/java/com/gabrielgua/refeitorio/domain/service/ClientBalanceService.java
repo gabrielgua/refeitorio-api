@@ -28,15 +28,14 @@ public class ClientBalanceService {
     @Transactional
     public void withdraw(Client client, BigDecimal amount) {
         if (client.useBalance()) {
-            validateBalanceLimit(client, amount);
+            validateBalanceLimit(client);
             client.setBalance(client.getBalance().subtract(amount));
             clientRepository.save(client);
         }
     }
 
-    private void validateBalanceLimit(Client client, BigDecimal amount) {
-        var balanceNew = client.getBalance().subtract(amount);
-        if (balanceNew.compareTo(NEGATIVE_BALANCE_LIMIT) < 0) {
+    public void validateBalanceLimit(Client client) {
+        if (client.getBalance().compareTo(NEGATIVE_BALANCE_LIMIT) < 0) {
             throw new ClientBalanceLimitReachedException();
         }
     }

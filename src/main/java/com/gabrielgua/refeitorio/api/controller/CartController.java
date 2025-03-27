@@ -27,7 +27,6 @@ public class CartController {
         var order = orderMapper.toEntity(request);
         orderService.validateOrder(order);
         orderService.validateItems(order);
-
         orderService.calculateTotalPrice(order);
 
         return cartMapper.toResponse(order);

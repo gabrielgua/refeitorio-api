@@ -79,7 +79,8 @@ insert into atendimentos_products (atendimento_id, product_id, is_mandatory) val
 insert into credential_ranges(name, min, max, payment_type, created_at) values
 ("range-cracha-funcionarios-clt-e-aprendizes", 1, 29999,  "PAYROLL_DEBIT", utc_timestamp),
 ("range-cracha-corpo-clinico", 50000, 59999, "BALANCE_DEBIT", utc_timestamp),
-("range-cracha-corpo-estagiarios-e-acedemicos-cepep", 60000, 69999, "BALANCE_DEBIT", utc_timestamp);
+("range-cracha-corpo-estagiarios-e-acedemicos-cepep", 60000, 69999, "BALANCE_DEBIT", utc_timestamp),
+("range-cracha-terceirizados-2", 90000, 929999, "BALANCE_DEBIT", utc_timestamp);
 
 insert into order_discount_strategies(credential_range_id, name, salary_min, salary_max, created_at) values
 (1, "Funcionários CLT e Aprendizes - 1", 1, 1000, utc_timestamp),
