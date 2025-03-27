@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FindClientService {
+public class FetchClientService {
 
     private static final String BENNER_API_ENDPOINT = "/{credential}";
 

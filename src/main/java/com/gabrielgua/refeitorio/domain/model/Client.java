@@ -19,4 +19,8 @@ public class Client {
     private BigDecimal salary;
     private BigDecimal balance;
     private Boolean freeOfCharge;
+
+    public Boolean useBalance() {
+        return this.balance != null;
+    }
 }

@@ -18,7 +18,7 @@ public class OrderResponse {
     private Long id;
     private String number;
     private ClientResponse client;
-    private AtendimentoModel atendimento;
+    private AtendimentoResponse atendimento;
     private List<OrderItemResponse> items;
     private BigDecimal finalPrice;
     private BigDecimal originalPrice;

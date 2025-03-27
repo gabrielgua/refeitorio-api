@@ -18,15 +18,16 @@ public class AuthService {
     private final TokenService tokenService;
     private final UserService userService;
 
-    public AuthResponse register(User user) {
-        var token = tokenService.generateToken(user, defaultClaims(user));
-
+    private AuthResponse toModel (User user, String token) {
         return AuthResponse.builder()
                 .id(user.getId())
-                .email(user.getEmail())
-                .role(user.getRole())
                 .token(token)
                 .build();
+    }
+
+    public AuthResponse register(User user) {
+        var token = tokenService.generateToken(user, defaultClaims(user));
+        return toModel(user, token);
     }
 
     public AuthResponse authenticate(AuthRequest request) {
@@ -34,13 +35,7 @@ public class AuthService {
 
         var user = userService.findByEmail(request.getEmail());
         var token = tokenService.generateToken(user, defaultClaims(user));
-
-        return AuthResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .token(token)
-                .build();
+        return toModel(user, token);
     }
 
     private Map<String, Object> defaultClaims(User user) {

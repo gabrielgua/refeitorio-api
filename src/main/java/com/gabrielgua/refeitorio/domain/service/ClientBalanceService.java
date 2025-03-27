@@ -1,6 +1,8 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.model.Client;
+import com.gabrielgua.refeitorio.domain.model.Order;
 import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,17 +14,30 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ClientBalanceService {
 
+    private static final BigDecimal NEGATIVE_BALANCE_LIMIT = BigDecimal.valueOf(-100);
     private final ClientRepository clientRepository;
 
     @Transactional
     public void deposit(Client client, BigDecimal amount) {
-        client.setBalance(client.getBalance().add(amount));
-        clientRepository.save(client);
+        if (client.useBalance()) {
+            client.setBalance(client.getBalance().add(amount));
+            clientRepository.save(client);
+        }
     }
 
     @Transactional
     public void withdraw(Client client, BigDecimal amount) {
-        client.setBalance(client.getBalance().subtract(amount));
-        clientRepository.save(client);
+        if (client.useBalance()) {
+            validateBalanceLimit(client, amount);
+            client.setBalance(client.getBalance().subtract(amount));
+            clientRepository.save(client);
+        }
+    }
+
+    private void validateBalanceLimit(Client client, BigDecimal amount) {
+        var balanceNew = client.getBalance().subtract(amount);
+        if (balanceNew.compareTo(NEGATIVE_BALANCE_LIMIT) < 0) {
+            throw new ClientBalanceLimitReachedException();
+        }
     }
 }

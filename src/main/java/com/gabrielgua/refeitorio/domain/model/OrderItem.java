@@ -34,14 +34,24 @@ public class OrderItem {
     @ManyToOne
     private Product product;
 
-    public void calculateTotalPrice() {
+    public void calculateTotalPriceZeroDiscount() {
         setSubtotal(getBaseCalculation());
         setTotalPrice(getSubtotal());
         setDiscountedPrice(BigDecimal.ZERO);
         setDiscount(BigDecimal.ZERO);
     }
 
-    public void calculateTotalPrice(OrderDiscountRule discountRule) {
+    public void calculateTotalPriceFreeOfCharge() {
+        var discount = BigDecimal.ONE;
+        var baseCalculation = getBaseCalculation();
+        setSubtotal(baseCalculation);
+        setDiscountedPrice(getSubtotal().multiply(discount));
+
+        setDiscount(discount);
+        setTotalPrice(getSubtotal().subtract(getDiscountedPrice()));
+    }
+
+    public void calculateTotalPriceByRule(OrderDiscountRule discountRule) {
         var discountedPrice = BigDecimal.ZERO;
         var baseCalculation = getBaseCalculation();
         setSubtotal(baseCalculation);

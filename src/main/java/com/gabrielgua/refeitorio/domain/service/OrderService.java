@@ -1,7 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.BusinessException;
-import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.filter.OrderFilter;
 import com.gabrielgua.refeitorio.domain.model.*;
 import com.gabrielgua.refeitorio.domain.repository.OrderRepository;
@@ -20,8 +19,9 @@ public class OrderService {
 
     private final OrderRepository repository;
     private final ProductService productService;
+    private final StoreService storeService;
     private final ClientService clientService;
-    private final FindClientService findClientService;
+    private final FetchClientService fetchClientService;
     private final AtendimentoService atendimentoService;
     private final ClientBalanceService clientBalanceService;
     private final OrderDiscountStrategyService discountStrategyService;
@@ -37,7 +37,7 @@ public class OrderService {
         validateOrder(order);
         validateItems(order);
         calculateTotalPrice(order);
-        validateClientBalance(order);
+        withdrawBalance(order);
         return repository.save(order);
     }
 
@@ -61,9 +61,11 @@ public class OrderService {
     }
 
     public void validateOrder(Order order) {
-        var client = findClientService.findByCredential(order.getClient().getCredential());
+        var store =  storeService.findById(order.getStore().getId());
+        var client = fetchClientService.findByCredential(order.getClient().getCredential());
         var atendimento = atendimentoService.findById(order.getAtendimento().getId());
 
+        order.setStore(store);
         order.setClient(client);
         order.setAtendimento(atendimento);
     }
@@ -89,27 +91,22 @@ public class OrderService {
     }
 
     private void applyDiscounts(Order order, Optional<OrderDiscountStrategy> strategy) {
-        //if the strategy is not present the discount applied is 0%.
-        //if the strategy is present but the product does not have a strategyRule tha matches the strategy, the discount applied is 0%
-        //if the strategy is present and the strategyRule is present the discount is applied based on its value.
-
-        strategy.ifPresentOrElse(orderDiscountStrategy -> order.getItems().forEach(item -> {
-            discountRuleService.findByDiscountStrategyAndProduct(orderDiscountStrategy, item.getProduct())
-                    .ifPresentOrElse(item::calculateTotalPrice, item::calculateTotalPrice);
-        }), () -> order.getItems().forEach(OrderItem::calculateTotalPrice));
-    }
-
-    public void validateClientBalance(Order order) {
-        var client = findClientService.findByCredential(order.getClient().getCredential());
-        if (client.getBalance() == null) { // if the client doesn't have to use balance for orders
+        if (order.getClient().getFreeOfCharge()) {
+            order.getItems().forEach(OrderItem::calculateTotalPriceFreeOfCharge);
             return;
         }
 
-        var balanceNew = client.getBalance().subtract(order.getFinalPrice());
-        if (balanceNew.compareTo(BigDecimal.valueOf(-100)) < 0) {
-            throw new ClientBalanceLimitReachedException();
-        }
+        //if the strategy is not present the discount applied is 0%.
+        //if the strategy is present but the product does not have a strategyRule that matches the strategy, the discount applied is 0%
+        //if the strategy is present and the strategyRule is present the discount is applied based on its value.
+        strategy.ifPresentOrElse(orderDiscountStrategy -> order.getItems().forEach(item -> {
+            discountRuleService.findByDiscountStrategyAndProduct(orderDiscountStrategy, item.getProduct())
+                    .ifPresentOrElse(item::calculateTotalPriceByRule, item::calculateTotalPriceZeroDiscount);
+        }), () -> order.getItems().forEach(OrderItem::calculateTotalPriceZeroDiscount));
+    }
 
+    public void withdrawBalance(Order order) {
+        var client = fetchClientService.findByCredential(order.getClient().getCredential());
         clientBalanceService.withdraw(client, order.getFinalPrice());
     }
 

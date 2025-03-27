@@ -27,6 +27,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User findById(Long userId) {
+        return repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    @Transactional(readOnly = true)
     public List<User> listAll() {
         return repository.findAll();
     }

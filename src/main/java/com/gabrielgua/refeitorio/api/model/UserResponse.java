@@ -13,7 +13,8 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
-
+    private Long id;
     private String email;
+    private StoreResponse store;
     private UserRole role;
 }

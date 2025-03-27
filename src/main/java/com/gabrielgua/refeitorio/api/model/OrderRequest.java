@@ -19,6 +19,9 @@ public class OrderRequest {
     private Long atendimentoId;
 
     @NotNull
+    private Long storeId;
+
+    @NotNull
     private List<OrderItemRequest> items;
 
     private BigDecimal weight;

@@ -16,7 +16,6 @@ public class ClientResponse {
     private String credential;
     private String name;
     private String role;
-    private BigDecimal salary;
     private BigDecimal balance;
     private Boolean freeOfCharge;
 }

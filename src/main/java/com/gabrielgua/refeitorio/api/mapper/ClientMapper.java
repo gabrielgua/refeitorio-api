@@ -14,9 +14,9 @@ public class ClientMapper {
         return ClientResponse.builder()
                 .name(client.getName())
                 .role(client.getRole())
-                .salary(client.getSalary())
                 .balance(client.getBalance())
                 .credential(client.getCredential())
+                .freeOfCharge(client.getFreeOfCharge())
                 .build();
     }
 

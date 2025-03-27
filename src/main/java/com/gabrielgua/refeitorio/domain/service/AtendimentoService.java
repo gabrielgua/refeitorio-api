@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.domain.exception.AtendimentoNotFound;
+import com.gabrielgua.refeitorio.domain.exception.AtendimentoNotFoundException;
 import com.gabrielgua.refeitorio.domain.exception.ResourceNotFoundException;
 import com.gabrielgua.refeitorio.domain.model.Atendimento;
 import com.gabrielgua.refeitorio.domain.repository.AtendimentoRepository;
@@ -44,14 +44,14 @@ public class AtendimentoService {
         return repository
                 .findFirstByTimeStartAfterOrderByTimeStartAsc(currentTime)
                 .or(() -> repository.findFirstByTimeStartBeforeOrderByTimeStartAsc(currentTime))
-                .orElseThrow(() -> new AtendimentoNotFound("Could not find next Atendimento"));
+                .orElseThrow(() -> new AtendimentoNotFoundException("Could not find next Atendimento"));
     }
     @Transactional(readOnly = true)
     public Atendimento findPreviousAtendimento() {
         var currentTime = LocalTime.now();
         return repository.findFirstByTimeEndBeforeOrderByTimeEndDesc(currentTime)
                 .or(() -> repository.findFirstByTimeEndAfterOrderByTimeEndDesc(currentTime))
-                .orElseThrow(() -> new AtendimentoNotFound("Could not find previous Atendimento"));
+                .orElseThrow(() -> new AtendimentoNotFoundException("Could not find previous Atendimento"));
     }
 
 }
