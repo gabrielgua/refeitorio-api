@@ -7,7 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,11 +25,8 @@ public class Atendimento {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "atendimentos_products",
-            joinColumns = @JoinColumn(name = "atendimento_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "atendimento", cascade =  CascadeType.ALL,  orphanRemoval = true)
+    private List<AtendimentoProduct> productRelations = new ArrayList<>();
 
     private LocalTime timeStart;
     private LocalTime timeEnd;

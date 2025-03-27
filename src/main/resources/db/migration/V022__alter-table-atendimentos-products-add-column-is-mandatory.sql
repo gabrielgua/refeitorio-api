@@ -1,0 +1,1 @@
+alter table atendimentos_products add column is_mandatory tinyint(1) not null default false;

@@ -68,11 +68,13 @@ insert into products (code, name, price, price_type, allow_multiple) values
 ("7891234567898", "Sanduíche Natural", 8.90, "PRICE_PER_UNIT", true),
 ("7891234567899", "Mini Pizza", 9.50, "PRICE_PER_UNIT", true);
 
-insert into atendimentos_products (atendimento_id, product_id) values
-(1, 3), (1, 4), (1, 11), (1, 13),
-(2, 1),
-(3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (3, 12), (3, 13), (3, 14),
-(4, 2);
+insert into atendimentos_products (atendimento_id, product_id, is_mandatory) values
+(1, 4, true),
+(2, 1, true),
+(3, 3, true),
+(4, 2, true),
+(1, 5, false),
+(1, 6, false);
 
 insert into credential_ranges(name, min, max, payment_type, created_at) values
 ("range-cracha-funcionarios-clt-e-aprendizes", 1, 29999,  "PAYROLL_DEBIT", utc_timestamp),
