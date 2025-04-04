@@ -1,8 +1,9 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
+import com.gabrielgua.refeitorio.domain.model.BalanceMovement;
+import com.gabrielgua.refeitorio.domain.model.BalanceMovementType;
 import com.gabrielgua.refeitorio.domain.model.Client;
-import com.gabrielgua.refeitorio.domain.model.Order;
 import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,19 +17,34 @@ public class ClientBalanceService {
 
     private static final BigDecimal NEGATIVE_BALANCE_LIMIT = BigDecimal.valueOf(-100);
     private final ClientRepository clientRepository;
+    private final BalanceMovementService balanceMovementService;
 
     @Transactional
-    public void deposit(Client client, BigDecimal amount) {
-        if (client.useBalance()) {
-            client.setBalance(client.getBalance().add(amount));
-            clientRepository.save(client);
+    public BalanceMovement adjust(Client client, BigDecimal amount) {
+        if (!client.useBalance()) {
+            client.setBalance(BigDecimal.ZERO);
         }
+
+        var oldBalance = client.getBalance();
+        var newBalance = oldBalance.add(amount);
+
+        client.setBalance(client.getBalance().add(amount));
+        clientRepository.save(client);
+
+        return balanceMovementService.save(BalanceMovement.builder()
+                .amount(amount)
+                .client(client)
+                .oldBalance(oldBalance)
+                .newBalance(newBalance)
+                .type(BalanceMovementType.ADJUSTMENT)
+                .build());
     }
 
     @Transactional
     public void withdraw(Client client, BigDecimal amount) {
         if (client.useBalance()) {
             validateBalanceLimit(client);
+            balanceMovementService.save(client, amount, BalanceMovementType.PURCHASE);
             client.setBalance(client.getBalance().subtract(amount));
             clientRepository.save(client);
         }
