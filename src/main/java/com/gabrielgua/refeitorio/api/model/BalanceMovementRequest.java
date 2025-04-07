@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.api.model;
 
+import com.gabrielgua.refeitorio.api.validation.annotations.NonZero;
 import com.gabrielgua.refeitorio.domain.model.BalanceMovementType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,5 +15,6 @@ import java.math.BigDecimal;
 public class BalanceMovementRequest {
 
     @NotNull
+    @NonZero
     private BigDecimal amount;
 }

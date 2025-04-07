@@ -7,6 +7,7 @@ import com.gabrielgua.refeitorio.domain.model.BalanceMovementType;
 import com.gabrielgua.refeitorio.domain.service.BalanceMovementService;
 import com.gabrielgua.refeitorio.domain.service.ClientBalanceService;
 import com.gabrielgua.refeitorio.domain.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class BalanceMovementController {
     }
 
     @PostMapping
-    public BalanceMovementResponse adjustBalance(@PathVariable String credential, @RequestBody BalanceMovementRequest request) {
+    public BalanceMovementResponse adjustBalance(@PathVariable String credential, @Valid @RequestBody BalanceMovementRequest request) {
         var client = clientService.findByCredential(credential);
         return mapper.toResponse(clientBalanceService.adjust(client, request.getAmount()));
     }
