@@ -1,6 +1,7 @@
 package com.gabrielgua.refeitorio.api.exception;
 
 import com.gabrielgua.refeitorio.domain.exception.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,12 @@ public class ExceptionHandlerController {
     public ResponseEntity<?> handleNotFound(String error, String message) {
         var status = HttpStatus.NOT_FOUND;
         return handleExceptionInternal(service.createProblem(error, message, status.value()));
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException ex) {
+        var status = HttpStatus.UNAUTHORIZED;
+        return handleExceptionInternal(service.createProblem("TOKEN_EXPIRED", ex.getMessage(), status.value()));
     }
 
     @ExceptionHandler(BusinessException.class)
