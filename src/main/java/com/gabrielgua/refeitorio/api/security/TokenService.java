@@ -1,6 +1,7 @@
 package com.gabrielgua.refeitorio.api.security;
 
 import com.gabrielgua.refeitorio.domain.model.User;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -44,7 +45,7 @@ public class TokenService {
         try {
             final String email = getTokenSubject(token);
             return email.equals(subject) && getTokenExpiration(token).after(new Date());
-        } catch (SignatureException e) {
+        } catch (SignatureException ex) {
             return false;
         }
     }

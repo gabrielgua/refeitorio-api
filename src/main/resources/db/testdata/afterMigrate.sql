@@ -11,6 +11,7 @@ delete from atendimentos_products;
 delete from order_discount_rules;
 delete from order_discount_strategies;
 delete from credential_ranges;
+delete from balance_movements;
 
 set foreign_key_checks = 1;
 
@@ -23,6 +24,7 @@ alter table orders auto_increment = 1;
 alter table credential_ranges auto_increment = 1;
 alter table order_discount_rules auto_increment = 1;
 alter table order_discount_strategies auto_increment = 1;
+alter table balance_movements auto_increment = 1;
 
 insert into stores (id, name) values
 (1, 'Erasto Gaertner'),
