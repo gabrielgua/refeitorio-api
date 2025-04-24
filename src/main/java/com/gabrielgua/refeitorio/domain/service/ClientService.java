@@ -3,6 +3,7 @@ package com.gabrielgua.refeitorio.domain.service;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 import com.gabrielgua.refeitorio.domain.exception.UserNotFoundException;
@@ -18,6 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private final ClientRepository repository;
+
+    public List<Client> findAll() {
+        return repository.findAll();
+    }
+
+    public List<Client> searchForClient(String term) {
+        return repository.findByNameContainingOrCredentialContaining(term, term);
+    }
 
     @Transactional(readOnly = true)
     public Client findByCredential(String credential) {
