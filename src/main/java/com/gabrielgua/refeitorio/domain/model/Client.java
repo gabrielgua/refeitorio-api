@@ -20,10 +20,6 @@ public class Client {
     private BigDecimal balance;
     private Boolean freeOfCharge;
 
-    public Boolean useBalance() {
-        return this.balance != null;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "credential_range_id")
     private CredentialRange credentialRange;

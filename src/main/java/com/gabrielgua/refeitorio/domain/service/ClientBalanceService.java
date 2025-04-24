@@ -1,9 +1,11 @@
 package com.gabrielgua.refeitorio.domain.service;
 
+import com.gabrielgua.refeitorio.api.exception.InvalidPaymentType;
 import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.model.BalanceMovement;
 import com.gabrielgua.refeitorio.domain.model.BalanceMovementType;
 import com.gabrielgua.refeitorio.domain.model.Client;
+import com.gabrielgua.refeitorio.domain.model.PaymentType;
 import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,7 @@ public class ClientBalanceService {
 
     @Transactional
     public BalanceMovement adjust(Client client, BigDecimal amount) {
-        if (!client.useBalance()) {
-            client.setBalance(BigDecimal.ZERO);
-        }
+        validateClientBalance(client);
 
         var oldBalance = client.getBalance();
         var newBalance = oldBalance.add(amount);
@@ -42,17 +42,22 @@ public class ClientBalanceService {
 
     @Transactional
     public void withdraw(Client client, BigDecimal amount) {
-        if (client.useBalance()) {
-            validateBalanceLimit(client);
-            balanceMovementService.save(client, amount, BalanceMovementType.PURCHASE);
-            client.setBalance(client.getBalance().subtract(amount));
-            clientRepository.save(client);
-        }
+        validateClientBalance(client);
+        validateBalanceLimit(client);  // validates the negative limit
+        balanceMovementService.save(client, amount, BalanceMovementType.PURCHASE);
+        client.setBalance(client.getBalance().subtract(amount));
+        clientRepository.save(client);
     }
 
     public void validateBalanceLimit(Client client) {
         if (client.getBalance().compareTo(NEGATIVE_BALANCE_LIMIT) < 0) {
             throw new ClientBalanceLimitReachedException();
+        }
+    }
+
+    public void validateClientBalance(Client client) {
+        if (!client.getCredentialRange().getPaymentType().equals(PaymentType.BALANCE_DEBIT)) {
+            throw new InvalidPaymentType();
         }
     }
 }
