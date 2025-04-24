@@ -18,4 +18,5 @@ public class ClientResponse {
     private String role;
     private BigDecimal balance;
     private Boolean freeOfCharge;
+    private CredentialRangeResponse credentialRange;
 }

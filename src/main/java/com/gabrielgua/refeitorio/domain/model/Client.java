@@ -23,4 +23,8 @@ public class Client {
     public Boolean useBalance() {
         return this.balance != null;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "credential_range_id")
+    private CredentialRange credentialRange;
 }

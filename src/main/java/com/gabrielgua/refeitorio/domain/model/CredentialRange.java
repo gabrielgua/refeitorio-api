@@ -19,7 +19,7 @@ public class CredentialRange {
     private Long id;
 
     private String name;
-    private Integer min;
+    private Integer min;.
     private Integer max;
 
     @Enumerated(EnumType.STRING)
