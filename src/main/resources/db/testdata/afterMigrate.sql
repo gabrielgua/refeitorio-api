@@ -34,25 +34,27 @@ insert into stores (id, name) values
 insert into users (email, role, password, store_id) values
 ("admin@refeitorio.com", "ADMIN", "$2a$12$0u7.zYTIbdoyqHHj.poKtuMsXIhaBBNG5Y1gB9HRyBDw8bKM71qk6", 1);
 
-insert into credential_ranges(name, min, max, payment_type, created_at) values
-("range-cracha-funcionarios-clt-e-aprendizes", 1, 29999,  "PAYROLL_DEBIT", utc_timestamp),
-("range-cracha-corpo-clinico", 50000, 59999, "PAYROLL_DEBIT", utc_timestamp),
-("range-cracha-corpo-estagiarios-e-acedemicos-cepep", 60000, 69999, "BALANCE_DEBIT", utc_timestamp),
-("range-cracha-residentes", 70000, 79999, "PAYROLL_DEBIT", utc_timestamp),
-("range-cracha-rfcc", 30000, 39999, "PAYROLL_DEBIT", utc_timestamp),
-("range-cracha-terceiros", 40000, 49999, "BALANCE_DEBIT", utc_timestamp),
-("range-cracha-terceirizados-2", 90000, 92999, "BALANCE_DEBIT", utc_timestamp);
+insert into clients (credential, name, role, salary, balance, free_of_charge) values
+("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false),
+("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, null, false),
+("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, null, false),
+("32456", "RFCC Teste", "RFCC", 2000, null, false),
+("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null, false),
+("71893", "Redidentes Teste", "Residente e Especializando", 1670, null, false),
+("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, true),
+("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false),
+("42877", "Terceiro", "Terceirizado", 2670, 3.12, false);
 
 insert into clients (credential, name, role, salary, balance, free_of_charge, credential_range_id) values
 ("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false, 3),
 ("63412", "Pedro Maria do Santos", "Academico Administrativo", 1002.46, null, false, 3),
 ("14928", "Gabriel John Doe", "Analista de Suporte N1", 2000, null, false, 1),
-("32456", "RFCC Teste", "RFCC", 2000, null, false, 4),
+("32456", "RFCC Teste", "RFCC", 2000, null, false, 5),
 ("55908", "Corpo Clínico Teste", "Corpo Clínico", 2000, null, false, 2),
 ("71893", "Redidentes Teste", "Residente e Especializando", 1670, null, false, 4),
 ("00234", "SND Produção Teste", "Nutricionista N1", 3670, null, true, 1),
-("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false, 4),
-("42877", "Terceiro", "Terceirizado", 2670, 3.12, false, 4);
+("90090", "Terceirizado 2", "Terceirizado", 3670, 10.34, false, 7),
+("42877", "Terceiro", "Terceirizado", 2670, 3.12, false, 6);
 
 
 insert into atendimentos (name, time_start, time_end, created_at) values
@@ -85,7 +87,11 @@ insert into atendimentos_products (atendimento_id, product_id, is_mandatory) val
 (1, 5, false),
 (1, 6, false);
 
-
+insert into credential_ranges(name, min, max, payment_type, created_at) values
+("range-cracha-funcionarios-clt-e-aprendizes", 1, 29999,  "PAYROLL_DEBIT", utc_timestamp),
+("range-cracha-corpo-clinico", 50000, 59999, "BALANCE_DEBIT", utc_timestamp),
+("range-cracha-corpo-estagiarios-e-acedemicos-cepep", 60000, 69999, "BALANCE_DEBIT", utc_timestamp),
+("range-cracha-terceirizados-2", 90000, 929999, "BALANCE_DEBIT", utc_timestamp);
 
 insert into order_discount_strategies(credential_range_id, name, salary_min, salary_max, created_at) values
 (1, "Funcionários CLT e Aprendizes - 1", 1, 1000, utc_timestamp),
