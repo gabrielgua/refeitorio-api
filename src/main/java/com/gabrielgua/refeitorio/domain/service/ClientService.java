@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private final ClientRepository repository;
+    private final CredentialRangeService credentialRangeService;
 
     public List<Client> findAll() {
         return repository.findAll();
@@ -37,6 +38,11 @@ public class ClientService {
     public Client save(Client client){
         if (client.getFreeOfCharge() == null) {
             client.setFreeOfCharge(false);
+        }
+
+        if (client.getCredentialRange() == null) {
+            var credentialRange = credentialRangeService.findByCredential(client.getCredential());
+            client.setCredentialRange(credentialRange);
         }
 
         return repository.save(client);

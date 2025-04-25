@@ -36,8 +36,11 @@ insert into users (email, role, password, store_id) values
 
 insert into credential_ranges(name, min, max, payment_type, created_at) values
 ("range-cracha-funcionarios-clt-e-aprendizes", 1, 29999,  "PAYROLL_DEBIT", utc_timestamp),
-("range-cracha-corpo-clinico", 50000, 59999, "BALANCE_DEBIT", utc_timestamp),
+("range-cracha-corpo-clinico", 50000, 59999, "PAYROLL_DEBIT", utc_timestamp),
 ("range-cracha-corpo-estagiarios-e-acedemicos-cepep", 60000, 69999, "BALANCE_DEBIT", utc_timestamp),
+("range-cracha-residentes", 70000, 79999, "PAYROLL_DEBIT", utc_timestamp),
+("range-cracha-rfcc", 30000, 39999, "PAYROLL_DEBIT", utc_timestamp),
+("range-cracha-terceiros", 40000, 49999, "BALANCE_DEBIT", utc_timestamp),
 ("range-cracha-terceirizados-2", 90000, 92999, "BALANCE_DEBIT", utc_timestamp);
 
 insert into clients (credential, name, role, salary, balance, free_of_charge, credential_range_id) values

@@ -1,6 +1,4 @@
-package com.gabrielgua.refeitorio.api.exception;
-
-import com.gabrielgua.refeitorio.domain.exception.BusinessException;
+package com.gabrielgua.refeitorio.domain.exception;
 
 public class InvalidPaymentType extends BusinessException {
     public InvalidPaymentType() {

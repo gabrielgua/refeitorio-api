@@ -1,6 +1,6 @@
 package com.gabrielgua.refeitorio.domain.service;
 
-import com.gabrielgua.refeitorio.api.exception.InvalidPaymentType;
+import com.gabrielgua.refeitorio.domain.exception.InvalidPaymentType;
 import com.gabrielgua.refeitorio.domain.exception.ClientBalanceLimitReachedException;
 import com.gabrielgua.refeitorio.domain.model.BalanceMovement;
 import com.gabrielgua.refeitorio.domain.model.BalanceMovementType;
