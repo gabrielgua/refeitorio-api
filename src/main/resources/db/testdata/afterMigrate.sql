@@ -41,7 +41,7 @@ insert into credential_ranges(name, min, max, payment_type, created_at) values
 ("range-cracha-residentes", 70000, 79999, "PAYROLL_DEBIT", utc_timestamp),
 ("range-cracha-rfcc", 30000, 39999, "PAYROLL_DEBIT", utc_timestamp),
 ("range-cracha-terceiros", 40000, 49999, "BALANCE_DEBIT", utc_timestamp),
-("range-cracha-terceirizados-2", 90000, 929999, "BALANCE_DEBIT", utc_timestamp);
+("range-cracha-terceirizados-2", 90000, 92999, "BALANCE_DEBIT", utc_timestamp);
 
 insert into clients (credential, name, role, salary, balance, free_of_charge, credential_range_id) values
 ("64444", "João Maria do Santos", "Estagiário do RH", 1000.00, null, false, 3),
