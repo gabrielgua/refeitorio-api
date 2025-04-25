@@ -66,7 +66,15 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(ClientBalanceLimitReachedException.class)
     public ResponseEntity<?> handleClientBalanceLimitReached(ClientBalanceLimitReachedException ex) {
-        var status = HttpStatus.BAD_REQUEST;
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
         return handleExceptionInternal(service.createProblem("BALANCE_LIMIT_REACHED", ex.getMessage(), status.value()));
     }
+
+    @ExceptionHandler(InvalidPaymentType.class)
+    public ResponseEntity<?> handleInvalidPaymentType(InvalidPaymentType ex) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        return handleExceptionInternal(service.createProblem("INVALID_PAYMENT_TYPE", ex.getMessage(), status.value()));
+    }
+
+
 }
