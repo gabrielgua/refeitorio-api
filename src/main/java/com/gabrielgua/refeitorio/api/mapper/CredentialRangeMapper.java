@@ -40,6 +40,13 @@ public class CredentialRangeMapper {
         return credentialRange;
     }
 
+    public void copyToEntity(CredentialRangeRequest request, CredentialRange range) {
+        range.setName(request.getName());
+        range.setMin(request.getMin());
+        range.setMax(request.getMax());
+        range.setPaymentType(request.getPaymentType());
+    }
+
     public List<CredentialRangeResponse> toCollectionResponse(List<CredentialRange> credentialRanges) {
         return credentialRanges.stream()
                 .map(this::toResponse)

@@ -73,13 +73,14 @@ public class CredentialRangeController {
     @PostMapping
     public CredentialRangeResponse save(@Valid @RequestBody CredentialRangeRequest credentialRangeRequest) {
         var cRange = mapper.toEntity(credentialRangeRequest);
-        return  mapper.toResponse(service.save(cRange));
+        return mapper.toResponse(service.save(cRange));
     }
 
     @PutMapping("/{credentialRangeId}")
-    public List<CredentialRangeResponse> update(@PathVariable Long credentialRangeId, @RequestBody @Valid CredentialRangeRequest request) {
+    public CredentialRangeResponse update(@PathVariable Long credentialRangeId, @RequestBody @Valid CredentialRangeRequest request) {
         var cRange = service.findById(credentialRangeId);
-        return null;
+        mapper.copyToEntity(request, cRange);
+        return mapper.toResponse(service.save(cRange));
     }
 
     private Map<String, String> generateInfoMap(CredentialRangeFilter filter) {
