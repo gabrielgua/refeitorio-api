@@ -76,5 +76,13 @@ public class ExceptionHandlerController {
         return handleExceptionInternal(service.createProblem("INVALID_PAYMENT_TYPE", ex.getMessage(), status.value()));
     }
 
+    @ExceptionHandler(CredentialRangeOverlapException.class)
+    public ResponseEntity<?> handleCredentialRangeOverlap(CredentialRangeOverlapException ex) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        return handleExceptionInternal(service.createProblem("CREDENTIAL_RANGE_OVERLAP", ex.getMessage(), status.value()));
+    }
+
+
+
 
 }

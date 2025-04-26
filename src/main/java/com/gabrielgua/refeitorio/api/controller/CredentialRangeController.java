@@ -2,21 +2,21 @@ package com.gabrielgua.refeitorio.api.controller;
 
 import com.gabrielgua.refeitorio.api.mapper.CredentialRangeMapper;
 import com.gabrielgua.refeitorio.api.mapper.PageableMapper;
+import com.gabrielgua.refeitorio.api.model.CredentialRangeRequest;
 import com.gabrielgua.refeitorio.api.model.CredentialRangeResponse;
 import com.gabrielgua.refeitorio.api.model.PagedResponse;
+import com.gabrielgua.refeitorio.domain.exception.CredentialRangeOverlapException;
 import com.gabrielgua.refeitorio.domain.filter.CredentialRangeFilter;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
-import com.gabrielgua.refeitorio.domain.model.PaymentType;
 import com.gabrielgua.refeitorio.domain.service.CredentialRangeService;
 import com.gabrielgua.refeitorio.domain.service.ReportFileXLSXService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -63,6 +63,23 @@ public class CredentialRangeController {
                 mapper,
                 generateInfoMap(filter));
 
+    }
+
+    @GetMapping("/overlaps")
+    public List<CredentialRangeResponse> getOverlaps(@RequestParam Integer min, @RequestParam Integer max, @RequestParam(required = false) Long id) {
+        return mapper.toCollectionResponse(service.findOverlaps(min, max, id));
+    }
+
+    @PostMapping
+    public CredentialRangeResponse save(@Valid @RequestBody CredentialRangeRequest credentialRangeRequest) {
+        var cRange = mapper.toEntity(credentialRangeRequest);
+        return  mapper.toResponse(service.save(cRange));
+    }
+
+    @PutMapping("/{credentialRangeId}")
+    public List<CredentialRangeResponse> update(@PathVariable Long credentialRangeId, @RequestBody @Valid CredentialRangeRequest request) {
+        var cRange = service.findById(credentialRangeId);
+        return null;
     }
 
     private Map<String, String> generateInfoMap(CredentialRangeFilter filter) {
