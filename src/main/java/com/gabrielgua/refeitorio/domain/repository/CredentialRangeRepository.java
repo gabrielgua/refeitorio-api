@@ -1,5 +1,6 @@
 package com.gabrielgua.refeitorio.domain.repository;
 
+import com.gabrielgua.refeitorio.domain.model.Client;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -21,4 +22,5 @@ public interface CredentialRangeRepository extends JpaRepository<CredentialRange
       AND (:min <= cr.max AND :max >= cr.min)
     """)
     List<CredentialRange> findOverlappingRanges(Integer min, Integer max, Long id);
+
 }

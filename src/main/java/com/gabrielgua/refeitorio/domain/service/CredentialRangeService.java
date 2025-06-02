@@ -1,10 +1,12 @@
 package com.gabrielgua.refeitorio.domain.service;
 
 import com.gabrielgua.refeitorio.domain.exception.BusinessException;
+import com.gabrielgua.refeitorio.domain.exception.CredentialRangeInUseException;
 import com.gabrielgua.refeitorio.domain.exception.CredentialRangeNotFound;
 import com.gabrielgua.refeitorio.domain.exception.CredentialRangeOverlapException;
 import com.gabrielgua.refeitorio.domain.filter.CredentialRangeFilter;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
+import com.gabrielgua.refeitorio.domain.repository.ClientRepository;
 import com.gabrielgua.refeitorio.domain.repository.CredentialRangeRepository;
 import com.gabrielgua.refeitorio.infra.spec.CredentialRangeSpecs;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class CredentialRangeService {
 
     private final CredentialRangeRepository credentialRangeRepository;
+    private final ClientRepository clientRepository;
 
     @Transactional(readOnly = true)
     public Page<CredentialRange> findAll(Pageable pageable, CredentialRangeFilter filter) {
@@ -57,5 +60,16 @@ public class CredentialRangeService {
         if (!overlaps.isEmpty()) {
             throw new CredentialRangeOverlapException();
         }
+    }
+
+    @Transactional
+    public void remove(CredentialRange range) {
+        var clients = clientRepository.findAllByCredentialRangeId(range.getId());
+
+        if (!clients.isEmpty()) {
+            throw new CredentialRangeInUseException();
+        }
+
+        credentialRangeRepository.delete(range);
     }
 }

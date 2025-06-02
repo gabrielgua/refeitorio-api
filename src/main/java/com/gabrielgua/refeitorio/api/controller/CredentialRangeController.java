@@ -5,7 +5,7 @@ import com.gabrielgua.refeitorio.api.mapper.PageableMapper;
 import com.gabrielgua.refeitorio.api.model.CredentialRangeRequest;
 import com.gabrielgua.refeitorio.api.model.CredentialRangeResponse;
 import com.gabrielgua.refeitorio.api.model.PagedResponse;
-import com.gabrielgua.refeitorio.domain.exception.CredentialRangeOverlapException;
+import com.gabrielgua.refeitorio.domain.exception.BusinessException;
 import com.gabrielgua.refeitorio.domain.filter.CredentialRangeFilter;
 import com.gabrielgua.refeitorio.domain.model.CredentialRange;
 import com.gabrielgua.refeitorio.domain.service.CredentialRangeService;
@@ -61,7 +61,7 @@ public class CredentialRangeController {
                 headers,
                 page.getContent(),
                 mapper,
-                generateInfoMap(filter));
+                generateFilterInfoMap(filter));
 
     }
 
@@ -83,7 +83,13 @@ public class CredentialRangeController {
         return mapper.toResponse(service.save(cRange));
     }
 
-    private Map<String, String> generateInfoMap(CredentialRangeFilter filter) {
+    @DeleteMapping("/{credentialRangeId}")
+    public void delete(@PathVariable Long credentialRangeId) {
+        var cRange = service.findById(credentialRangeId);
+        service.remove(cRange);
+    }
+
+    private Map<String, String> generateFilterInfoMap(CredentialRangeFilter filter) {
         Map<String, String> map = new HashMap<>();
         if (filter.getPaymentType() != null) {
             map.put("Tipo de pagamento",  filter.getPaymentType().getLabel().toUpperCase());
