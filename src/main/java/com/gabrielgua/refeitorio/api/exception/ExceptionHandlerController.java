@@ -26,6 +26,16 @@ public class ExceptionHandlerController {
         return handleExceptionInternal(service.createProblem(error, message, status.value()));
     }
 
+    public ResponseEntity<?> handleConflict(String error, String message) {
+        var status = HttpStatus.CONFLICT;
+        return handleExceptionInternal(service.createProblem(error, message, status.value()));
+    }
+
+    public ResponseEntity<?> handleUnprocessableEntity(String error, String message) {
+        var status = HttpStatus.UNPROCESSABLE_ENTITY;
+        return handleExceptionInternal(service.createProblem(error, message, status.value()));
+    }
+
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException ex) {
         var status = HttpStatus.UNAUTHORIZED;
@@ -66,15 +76,21 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(ClientBalanceLimitReachedException.class)
     public ResponseEntity<?> handleClientBalanceLimitReached(ClientBalanceLimitReachedException ex) {
-        var status = HttpStatus.UNPROCESSABLE_ENTITY;
-        return handleExceptionInternal(service.createProblem("BALANCE_LIMIT_REACHED", ex.getMessage(), status.value()));
+        return handleUnprocessableEntity("CLIENT_BALANCE_LIMIT_REACHED", ex.getMessage());
     }
 
     @ExceptionHandler(InvalidPaymentType.class)
     public ResponseEntity<?> handleInvalidPaymentType(InvalidPaymentType ex) {
-        var status = HttpStatus.UNPROCESSABLE_ENTITY;
-        return handleExceptionInternal(service.createProblem("INVALID_PAYMENT_TYPE", ex.getMessage(), status.value()));
+        return handleUnprocessableEntity("INVALID_PAYMENT_TYPE", ex.getMessage());
     }
 
+    @ExceptionHandler(CredentialRangeOverlapException.class)
+    public ResponseEntity<?> handleCredentialRangeOverlap(CredentialRangeOverlapException ex) {
+        return handleUnprocessableEntity("CREDENTIAL_RANGE_OVERLAP", ex.getMessage());
+    }
 
+    @ExceptionHandler(CredentialRangeInUseException.class)
+    public ResponseEntity<?> handleCredentialRangeInUse(CredentialRangeInUseException ex) {
+        return handleConflict("CREDENTIAL_RANGE_IN_USE", ex.getMessage());
+    }
 }

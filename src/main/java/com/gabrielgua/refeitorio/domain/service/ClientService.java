@@ -47,4 +47,9 @@ public class ClientService {
 
         return repository.save(client);
     }
+
+    @Transactional(readOnly = true)
+    public List<Client> findAllByCredentialRangeId(Long credentialRangeId) {
+        return repository.findAllByCredentialRangeId(credentialRangeId);
+    }
 }
